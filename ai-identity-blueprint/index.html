@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Identity Blueprint | Dr. Johnna</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+:root {
+  --cream: #FEFCF9;
+  --dark: #1A1A1A;
+  --teal: #4DB8B8;
+  --teal-light: rgba(77,184,184,0.10);
+  --teal-mid: rgba(77,184,184,0.22);
+  --warm: #F5F1EB;
+  --gray: #8A8680;
+  --border: rgba(26,26,26,0.09);
+  --white: #FFFFFF;
+  --red-soft: rgba(180,60,60,0.08);
+  --red-text: #B43C3C;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Switzer',sans-serif;background:var(--cream);color:var(--dark);font-size:15px;line-height:1.65;overflow-x:hidden;}
+
+/* ─── PROGRESS BAR ─── */
+#topBar{position:fixed;top:0;left:0;right:0;height:3px;background:var(--border);z-index:999;}
+#topFill{height:100%;background:var(--teal);width:0%;transition:width .6s ease;}
+
+/* ─── SCREENS ─── */
+.screen{display:none;min-height:100vh;flex-direction:column;animation:fadeUp .45s ease;}
+.screen.active{display:flex;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─── WELCOME ─── */
+#s-welcome{background:var(--dark);color:var(--cream);justify-content:center;align-items:center;text-align:center;padding:80px 32px;position:relative;overflow:hidden;}
+#s-welcome::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(77,184,184,.13) 0%,transparent 68%);top:-200px;right:-200px;pointer-events:none;}
+#s-welcome::after{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(77,184,184,.07) 0%,transparent 68%);bottom:-100px;left:-100px;pointer-events:none;}
+.w-inner{position:relative;z-index:1;max-width:680px;margin:0 auto;}
+.w-eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:28px;font-weight:500;}
+.w-title{font-family:'DM Serif Display',serif;font-size:clamp(48px,7vw,84px);font-weight:300;line-height:1.0;color:var(--cream);margin-bottom:6px;}
+.w-title em{font-style:italic;color:var(--teal);}
+.w-tagline{font-family:'DM Serif Display',serif;font-size:clamp(16px,2vw,22px);color:rgba(254,252,249,.5);font-style:italic;margin-bottom:44px;}
+.w-desc{font-size:15px;line-height:1.85;color:rgba(254,252,249,.72);max-width:520px;margin:0 auto 48px;}
+.w-desc strong{color:var(--cream);}
+.w-stats{display:flex;gap:44px;justify-content:center;margin-bottom:52px;}
+.stat-num{font-family:'DM Serif Display',serif;font-size:36px;font-weight:300;color:var(--teal);line-height:1;}
+.stat-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(254,252,249,.38);margin-top:5px;}
+.w-triangle{display:flex;align-items:center;gap:0;justify-content:center;margin-bottom:52px;}
+.tri-item{display:flex;flex-direction:column;align-items:center;gap:10px;min-width:100px;}
+.tri-icon{width:44px;height:44px;border:1px solid rgba(77,184,184,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.tri-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(254,252,249,.4);}
+.tri-arrow{color:rgba(77,184,184,.3);font-size:18px;margin-bottom:22px;padding:0 4px;}
+
+/* ─── BUTTONS ─── */
+.btn-main{display:inline-block;background:var(--teal);color:var(--dark);border:none;padding:18px 52px;font-family:'Switzer',sans-serif;font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .22s ease;}
+.btn-main:hover{background:#3da8a8;transform:translateY(-1px);}
+.btn-ghost{display:inline-block;background:transparent;color:rgba(254,252,249,.6);border:1px solid rgba(254,252,249,.2);padding:16px 44px;font-family:'Switzer',sans-serif;font-size:13px;letter-spacing:.06em;cursor:pointer;transition:all .22s ease;margin-top:14px;}
+.btn-ghost:hover{border-color:rgba(254,252,249,.45);color:var(--cream);}
+.w-byline{margin-top:52px;font-size:11px;color:rgba(254,252,249,.28);letter-spacing:.05em;}
+
+/* ─── SECTION NAV ─── */
+.section-nav{background:var(--dark);padding:0 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.06);}
+.nav-logo{font-family:'Switzer',sans-serif;font-size:13px;font-weight:600;color:var(--cream);padding:18px 0;letter-spacing:.18em;text-transform:uppercase;}
+.nav-logo span{color:var(--teal);}
+.nav-steps{display:flex;gap:0;align-items:stretch;}
+.nav-step{padding:20px 20px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(254,252,249,.3);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s ease;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.nav-step:hover{color:rgba(254,252,249,.6);}
+.nav-step.active{color:var(--teal);border-bottom-color:var(--teal);}
+.nav-step.done{color:rgba(254,252,249,.5);}
+.nav-step .step-check{width:16px;height:16px;border-radius:50%;border:1px solid currentColor;display:inline-flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;}
+.nav-step.done .step-check{background:var(--teal);border-color:var(--teal);color:var(--dark);}
+
+/* ─── SECTION WRAPPER ─── */
+.section-wrap{flex:1;padding:64px 40px;max-width:860px;margin:0 auto;width:100%;}
+.section-eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:18px;font-weight:500;}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(32px,4.5vw,52px);font-weight:300;line-height:1.1;margin-bottom:10px;}
+.section-sub{font-family:'DM Serif Display',serif;font-size:18px;color:var(--gray);font-style:italic;margin-bottom:36px;}
+.section-framing{font-size:15px;line-height:1.85;color:var(--dark);opacity:.78;max-width:660px;margin-bottom:48px;padding:24px 28px;background:var(--warm);border-left:3px solid var(--teal);}
+
+/* ─── EXPERIENCE BLOCKS ─── */
+.exp-block{margin-bottom:40px;}
+.exp-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gray);margin-bottom:10px;font-weight:500;display:block;}
+.exp-question{font-family:'DM Serif Display',serif;font-size:clamp(20px,2.8vw,26px);font-weight:400;line-height:1.35;color:var(--dark);margin-bottom:8px;}
+.exp-hint{font-size:13px;color:var(--gray);margin-bottom:16px;font-style:italic;line-height:1.6;}
+
+textarea{width:100%;min-height:120px;background:var(--white);border:1px solid var(--border);padding:18px 20px;font-family:'Switzer',sans-serif;font-size:14px;line-height:1.75;color:var(--dark);resize:vertical;transition:all .2s ease;outline:none;border-radius:0;}
+textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-light);}
+textarea::placeholder{color:rgba(26,26,26,.28);}
+
+.text-inp{width:100%;background:var(--white);border:1px solid var(--border);padding:14px 18px;font-family:'Switzer',sans-serif;font-size:14px;color:var(--dark);outline:none;transition:all .2s ease;border-radius:0;}
+.text-inp:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-light);}
+.text-inp::placeholder{color:rgba(26,26,26,.28);}
+
+/* chip/tag inputs */
+.chip-field{background:var(--white);border:1px solid var(--border);padding:12px 16px;min-height:56px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;cursor:text;transition:all .2s ease;}
+.chip-field:focus-within{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-light);}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--teal-light);border:1px solid var(--teal-mid);color:var(--dark);padding:5px 10px;font-size:12px;letter-spacing:.02em;}
+.chip.bad{background:var(--red-soft);border-color:rgba(180,60,60,.2);color:var(--red-text);}
+.chip-x{cursor:pointer;opacity:.5;font-size:14px;line-height:1;}
+.chip-x:hover{opacity:1;}
+.chip-input{border:none;outline:none;font-family:'Switzer',sans-serif;font-size:13px;background:transparent;min-width:140px;color:var(--dark);padding:4px 0;}
+
+/* sentence builder */
+.sentence-row{display:grid;grid-template-columns:1fr 20px 1fr;gap:12px;align-items:center;margin-bottom:12px;}
+.sentence-connector{font-family:'DM Serif Display',serif;font-style:italic;color:var(--gray);text-align:center;font-size:16px;}
+
+/* scale selector */
+.scale-wrap{display:flex;gap:0;margin-top:8px;}
+.scale-btn{flex:1;padding:12px 8px;background:var(--white);border:1px solid var(--border);border-right:none;font-size:12px;cursor:pointer;transition:all .2s ease;text-align:center;color:var(--gray);font-family:'Switzer',sans-serif;}
+.scale-btn:last-child{border-right:1px solid var(--border);}
+.scale-btn:hover{background:var(--warm);}
+.scale-btn.active{background:var(--teal-light);border-color:var(--teal);color:var(--dark);font-weight:500;}
+.scale-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--gray);margin-top:6px;letter-spacing:.04em;}
+
+/* input row */
+.inp-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+/* value cards */
+.value-builder{display:flex;flex-direction:column;gap:12px;}
+.value-card{background:var(--white);border:1px solid var(--border);padding:18px 20px;display:grid;grid-template-columns:1fr 2fr;gap:16px;align-items:center;}
+.value-name-inp{font-family:'DM Serif Display',serif;font-size:18px;border:none;border-bottom:1px solid var(--border);background:transparent;outline:none;color:var(--dark);padding:4px 0;width:100%;}
+.value-name-inp::placeholder{color:rgba(26,26,26,.3);}
+.value-meaning-inp{font-size:13px;border:none;background:transparent;outline:none;color:var(--gray);width:100%;font-family:'Switzer',sans-serif;line-height:1.6;}
+.value-meaning-inp::placeholder{color:rgba(26,26,26,.28);}
+
+/* ─── VISUAL PATH ─── */
+.path-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;}
+.path-card{background:var(--white);border:2px solid var(--border);padding:28px 24px;cursor:pointer;transition:all .25s ease;}
+.path-card:hover,.path-card.sel{border-color:var(--teal);background:var(--teal-light);}
+.path-lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;font-weight:500;}
+.path-ttl{font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:8px;}
+.path-dsc{font-size:13px;color:var(--gray);line-height:1.6;}
+
+.color-field{display:flex;align-items:center;gap:12px;background:var(--white);border:1px solid var(--border);padding:10px 16px;}
+.color-field:focus-within{border-color:var(--teal);}
+input[type=color]{width:32px;height:32px;border:none;padding:0;cursor:pointer;background:none;-webkit-appearance:none;}
+input[type=color]::-webkit-color-swatch-wrapper{padding:0;}
+input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-radius:0;}
+.color-hex{border:none;font-family:'Switzer',sans-serif;font-size:13px;color:var(--dark);background:transparent;outline:none;flex:1;letter-spacing:.05em;}
+
+/* mood grid */
+.mood-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;}
+.mood-card{border:2px solid var(--border);cursor:pointer;transition:all .25s ease;overflow:hidden;background:var(--white);}
+.mood-card:hover,.mood-card.sel{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal);}
+.mood-swatch{height:72px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.mood-dot{width:16px;height:16px;border-radius:50%;}
+.mood-info{padding:12px 14px;border-top:1px solid var(--border);}
+.mood-name{font-size:13px;font-weight:500;margin-bottom:2px;}
+.mood-desc{font-size:11px;color:var(--gray);line-height:1.5;}
+
+/* ─── SECTION NAV BOTTOM ─── */
+.sec-nav-row{display:flex;align-items:center;justify-content:space-between;margin-top:56px;padding-top:36px;border-top:1px solid var(--border);}
+.btn-back-sec{font-size:13px;color:var(--gray);background:none;border:none;cursor:pointer;letter-spacing:.04em;padding:8px 0;transition:color .2s;}
+.btn-back-sec:hover{color:var(--dark);}
+.btn-next-sec{background:var(--dark);color:var(--cream);border:none;padding:15px 44px;font-family:'Switzer',sans-serif;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .22s ease;}
+.btn-next-sec:hover{background:#333;}
+.btn-next-sec:disabled{opacity:.3;cursor:not-allowed;}
+.sec-progress-text{font-size:12px;color:var(--gray);letter-spacing:.04em;}
+
+/* ─── GENERATING ─── */
+#s-gen{background:var(--dark);justify-content:center;align-items:center;text-align:center;padding:60px 32px;color:var(--cream);}
+.gen-rings{width:88px;height:88px;position:relative;margin:0 auto 52px;}
+.ring{position:absolute;border-radius:50%;border:1px solid;top:50%;left:50%;transform:translate(-50%,-50%);animation:pulse 2.2s ease-in-out infinite;}
+.ring:nth-child(1){width:88px;height:88px;border-color:var(--teal);animation-delay:0s;}
+.ring:nth-child(2){width:60px;height:60px;border-color:rgba(77,184,184,.45);animation-delay:.4s;}
+.ring:nth-child(3){width:32px;height:32px;border-color:rgba(77,184,184,.2);animation-delay:.8s;}
+@keyframes pulse{0%,100%{opacity:.25;transform:translate(-50%,-50%) scale(.94);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.06);}}
+.gen-title{font-family:'DM Serif Display',serif;font-size:38px;font-weight:300;margin-bottom:12px;}
+.gen-sub{font-size:14px;color:rgba(254,252,249,.45);margin-bottom:52px;letter-spacing:.03em;}
+.gen-steps{list-style:none;text-align:left;max-width:420px;margin:0 auto;}
+.g-step{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid rgba(254,252,249,.06);font-size:13px;color:rgba(254,252,249,.32);transition:all .4s ease;letter-spacing:.02em;}
+.g-step.active{color:var(--cream);}
+.g-step.done{color:var(--teal);}
+.g-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+/* ─── OUTPUT ─── */
+#s-output{flex-direction:column;}
+.out-header{background:var(--dark);padding:56px 60px;color:var(--cream);text-align:center;}
+.out-eye{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;}
+.out-title{font-family:'DM Serif Display',serif;font-size:clamp(32px,5vw,54px);font-weight:300;margin-bottom:10px;}
+.out-name{font-family:'DM Serif Display',serif;font-size:20px;color:rgba(254,252,249,.5);font-style:italic;}
+
+/* tab nav */
+.tab-nav{background:var(--white);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;padding:0 40px;position:sticky;top:0;z-index:50;}
+.tab-btn{padding:18px 24px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s ease;background:none;border-top:none;border-left:none;border-right:none;font-family:'Switzer',sans-serif;}
+.tab-btn:hover{color:var(--dark);}
+.tab-btn.active{color:var(--teal);border-bottom-color:var(--teal);}
+
+.tab-content{display:none;max-width:820px;margin:0 auto;padding:56px 40px;width:100%;}
+.tab-content.active{display:block;animation:fadeUp .35s ease;}
+
+/* blueprint sections */
+.bp-section{margin-bottom:52px;}
+.bp-sec-hd{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+.bp-num{font-family:'DM Serif Display',serif;font-size:13px;color:var(--teal);font-style:italic;min-width:26px;}
+.bp-title{font-family:'DM Serif Display',serif;font-size:21px;font-weight:400;}
+.bp-sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-left:auto;}
+.bp-body{font-size:15px;line-height:1.85;}
+.bp-body p{margin-bottom:14px;}
+
+/* tags */
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.tag{font-size:12px;letter-spacing:.04em;padding:6px 14px;border:1px solid var(--border);background:var(--white);}
+.tag.teal{border-color:var(--teal);color:var(--teal);background:var(--teal-light);}
+.tag.red{border-color:rgba(180,60,60,.25);color:var(--red-text);background:var(--red-soft);}
+
+/* pillars */
+.pillar-card{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--border);align-items:flex-start;}
+.pillar-n{font-family:'DM Serif Display',serif;font-size:32px;color:var(--teal);font-style:italic;line-height:1;min-width:32px;}
+.pillar-name{font-weight:500;font-size:15px;margin-bottom:4px;}
+.pillar-desc{font-size:13px;color:var(--gray);line-height:1.65;}
+
+/* usp callout */
+.usp-callout{background:var(--teal-light);border-left:3px solid var(--teal);padding:20px 24px;margin:18px 0;}
+.usp-lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:8px;font-weight:500;}
+.usp-text{font-family:'DM Serif Display',serif;font-size:21px;font-style:italic;line-height:1.45;}
+
+/* colors */
+.palette-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px;}
+.chip-color{text-align:center;}
+.chip-swatch{width:60px;height:60px;border:1px solid var(--border);}
+.chip-hex{font-size:11px;color:var(--gray);margin-top:6px;letter-spacing:.04em;}
+.chip-name{font-size:10px;color:var(--gray);opacity:.7;}
+
+/* value list */
+.val-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);}
+.val-name{font-family:'DM Serif Display',serif;font-size:18px;min-width:160px;font-weight:400;}
+.val-meaning{font-size:14px;color:var(--gray);line-height:1.65;}
+
+/* ─── AI TOOLS TAB ─── */
+.ai-tool-intro{font-size:15px;line-height:1.8;color:var(--dark);opacity:.8;margin-bottom:40px;max-width:640px;}
+
+.tool-card{background:var(--white);border:1px solid var(--border);margin-bottom:20px;overflow:hidden;}
+.tool-card-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;cursor:pointer;user-select:none;}
+.tool-card-header:hover{background:var(--warm);}
+.tool-info{display:flex;align-items:center;gap:14px;}
+.tool-icon{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.tool-name{font-weight:500;font-size:15px;}
+.tool-desc{font-size:12px;color:var(--gray);margin-top:2px;}
+.tool-toggle{font-size:20px;color:var(--gray);transition:transform .2s ease;}
+.tool-toggle.open{transform:rotate(180deg);}
+.tool-body{display:none;padding:0 24px 24px;}
+.tool-body.open{display:block;}
+.tool-use-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:10px;margin-top:20px;font-weight:500;}
+.code-block{background:var(--dark);color:rgba(254,252,249,.85);padding:20px 22px;font-family:'DM Mono','Courier New',monospace;font-size:12px;line-height:1.75;white-space:pre-wrap;word-break:break-word;position:relative;margin-top:10px;}
+.copy-code-btn{position:absolute;top:12px;right:12px;background:rgba(77,184,184,.15);color:var(--teal);border:1px solid rgba(77,184,184,.3);padding:6px 14px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'Switzer',sans-serif;transition:all .2s ease;}
+.copy-code-btn:hover{background:rgba(77,184,184,.28);}
+.how-to{font-size:13px;color:var(--gray);line-height:1.75;margin-top:16px;padding:16px 18px;background:var(--warm);border-left:2px solid var(--teal);}
+.how-to strong{color:var(--dark);}
+
+/* ─── ACTIVATION TAB ─── */
+.activation-hero{background:var(--dark);padding:40px;margin-bottom:32px;position:relative;}
+.activation-hero::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--teal);}
+.act-lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;font-weight:500;}
+.act-text{font-size:14px;line-height:1.85;color:rgba(254,252,249,.85);}
+.act-copy{margin-top:18px;background:transparent;border:1px solid rgba(254,252,249,.2);color:rgba(254,252,249,.55);padding:10px 24px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s ease;font-family:'Switzer',sans-serif;}
+.act-copy:hover{border-color:var(--teal);color:var(--teal);}
+.evol-note{background:var(--warm);border:1px solid var(--border);padding:24px 28px;margin-top:32px;text-align:center;}
+.evol-note p{font-size:14px;line-height:1.75;color:var(--gray);}
+.evol-note strong{color:var(--dark);}
+
+/* ─── DOWNLOAD & UPSELL ─── */
+.dl-zone{background:var(--warm);padding:56px 60px;border-top:1px solid var(--border);text-align:center;}
+.dl-title{font-family:'DM Serif Display',serif;font-size:32px;font-weight:300;margin-bottom:10px;}
+.dl-sub{font-size:14px;color:var(--gray);max-width:480px;margin:0 auto 36px;line-height:1.75;}
+.dl-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:56px;}
+.btn-dl{background:var(--dark);color:var(--cream);border:none;padding:16px 36px;font-family:'Switzer',sans-serif;font-size:12px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;transition:all .22s ease;}
+.btn-dl:hover{background:#2a2a2a;}
+.btn-dl-out{background:transparent;color:var(--dark);border:1px solid var(--dark);padding:16px 36px;font-family:'Switzer',sans-serif;font-size:12px;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;transition:all .22s ease;}
+.btn-dl-out:hover{background:var(--dark);color:var(--cream);}
+.upsell{max-width:480px;margin:0 auto;background:var(--white);border:1px solid var(--border);padding:36px;text-align:left;position:relative;}
+.upsell::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--teal);}
+.ups-eye{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:12px;font-weight:500;}
+.ups-ttl{font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;margin-bottom:12px;line-height:1.3;}
+.ups-txt{font-size:14px;line-height:1.75;color:var(--gray);margin-bottom:24px;}
+.ups-link{display:inline-block;background:var(--teal);color:var(--dark);padding:14px 32px;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .2s ease;}
+.ups-link:hover{background:#3da8a8;}
+
+/* responsive */
+@media(max-width:640px){
+  .section-nav{padding:0 20px;}
+  .nav-steps{display:none;}
+  .section-wrap{padding:40px 20px;}
+  .out-header{padding:40px 20px;}
+  .tab-nav{padding:0 20px;}
+  .tab-content{padding:40px 20px;}
+  .dl-zone{padding:40px 20px;}
+  .mood-grid{grid-template-columns:1fr 1fr;}
+  .inp-row{grid-template-columns:1fr;}
+  .sentence-row{grid-template-columns:1fr;grid-template-rows:auto auto auto;}
+  .sentence-connector{display:none;}
+  .path-grid{grid-template-columns:1fr;}
+  .upsell{padding:24px;}
+}
+</style>
+</head>
+<body>
+
+<div id="topBar"><div id="topFill"></div></div>
+
+<!-- ════════════════════════════════════
+     WELCOME
+════════════════════════════════════ -->
+<div id="s-welcome" class="screen active">
+  <div class="w-inner">
+    <div class="w-eyebrow">Dr. Johnna Richardson, PhD</div>
+    <h1 class="w-title">AI Identity<br><em>Blueprint</em></h1>
+    <p class="w-tagline">The complete you, formatted for any AI tool.</p>
+
+    <p class="w-desc">
+      Most people train AI to sound like them.<br>
+      This trains AI to <strong>think, feel and create</strong> like you.<br><br>
+      In less than 30 minutes, you'll build a complete Brand Identity Guide and receive a suite of AI training assets, ready to deploy into Claude, ChatGPT, or any AI tool you use.
+    </p>
+
+    <div class="w-triangle">
+      <div class="tri-item">
+        <div class="tri-icon">🧠</div>
+        <div class="tri-lbl">Cognition</div>
+      </div>
+      <div class="tri-arrow">→</div>
+      <div class="tri-item">
+        <div class="tri-icon">🫀</div>
+        <div class="tri-lbl">Emotion</div>
+      </div>
+      <div class="tri-arrow">→</div>
+      <div class="tri-item">
+        <div class="tri-icon">✦</div>
+        <div class="tri-lbl">Expression</div>
+      </div>
+      <div class="tri-arrow">→</div>
+      <div class="tri-item">
+        <div class="tri-icon">◈</div>
+        <div class="tri-lbl">Visual</div>
+      </div>
+    </div>
+
+    <div class="w-stats">
+      <div><div class="stat-num">4</div><div class="stat-lbl">Identity Layers</div></div>
+      <div><div class="stat-num" style="font-style:italic;">&lt;30</div><div class="stat-lbl">Minutes</div></div>
+      <div><div class="stat-num">5</div><div class="stat-lbl">AI-Ready Assets</div></div>
+    </div>
+
+    <button class="btn-main" onclick="startJourney()">Begin Your Blueprint</button>
+    <p class="w-byline">Dr. Johnna Consulting, LLC &nbsp;·&nbsp; doctorjohnna.com</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 1: HOW YOU THINK
+════════════════════════════════════ -->
+<div id="s-think" class="screen">
+  <div class="section-nav">
+    <div class="nav-logo">DR. JOHNNA</div>
+    <div class="nav-steps">
+      <div class="nav-step active" id="nav-think"><span class="step-check">1</span> How You Think</div>
+      <div class="nav-step" id="nav-feel"><span class="step-check">2</span> How You Feel</div>
+      <div class="nav-step" id="nav-speak"><span class="step-check">3</span> How You Communicate</div>
+      <div class="nav-step" id="nav-look"><span class="step-check">4</span> How You Look</div>
+      <div class="nav-step" id="nav-out"><span class="step-check">5</span> Your Blueprint</div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-eyebrow">Layer One of Four</div>
+    <h2 class="section-title">How You Think</h2>
+    <p class="section-sub">The Cognitive Layer</p>
+    <div class="section-framing">
+      Before AI can think like you, we need to understand how your mind actually works. Not your niche. Not your offer. The patterns, beliefs, and lens you bring that nobody else has. These questions will feel different from any brand exercise you've done before. That's the point.
+    </div>
+
+    <!-- Q1: Contrarian belief -->
+    <div class="exp-block">      <div class="exp-question">What do you believe about your industry, your clients, or the way most people approach your field that almost nobody else is saying out loud?</div>
+      <div class="exp-hint">The thing you've known for a while but haven't said plainly. Don't edit yourself.</div>
+      <textarea id="q1" placeholder="Write freely. There's no wrong answer here..." rows="5"></textarea>
+    </div>
+
+    <!-- Q2: What you see underneath -->
+    <div class="exp-block">      <div class="exp-question">When a client comes to you with a problem, what is the thing underneath the problem that you almost always see that they cannot see yet?</div>
+      <div class="exp-hint">The pattern you recognize before they name it.</div>
+      <textarea id="q2" placeholder="Think of a recent client conversation..." rows="5"></textarea>
+    </div>
+
+    <!-- Q3: Positioning sentence builder -->
+    <div class="exp-block">      <div class="exp-question">Finish this honestly.</div>
+      <div class="exp-hint">This is your market position in one breath.</div>
+      <div class="sentence-row">
+        <div>
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Most people in my space...</div>
+          <textarea id="q3a" placeholder="teach tactics before identity..." rows="3" style="min-height:80px;"></textarea>
+        </div>
+        <div class="sentence-connector">↔</div>
+        <div>
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">I believe...</div>
+          <textarea id="q3b" placeholder="identity has to come first. Always." rows="3" style="min-height:80px;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4: Evolution -->
+    <div class="exp-block">      <div class="exp-question">What is a perspective or approach you held five years ago that you no longer hold? What changed?</div>
+      <div class="exp-hint">Your evolution is part of your positioning. This shows how you think, not just what you know.</div>
+      <textarea id="q4" placeholder="Be honest. The shift is the interesting part..." rows="4"></textarea>
+    </div>
+
+    <!-- Q5: Who they serve -->
+    <div class="exp-block">      <div class="exp-question">Who is the person you are most built to serve? Not their job title. Describe them by where they are in their life or identity right now.</div>
+      <div class="exp-hint">What are they carrying? What have they tried that hasn't worked?</div>
+      <textarea id="q5" placeholder="Think of your best client, or the one you wish you had more of..." rows="5"></textarea>
+    </div>
+
+    <!-- Q6: Best work -->
+    <div class="exp-block">      <div class="exp-question">When you are doing your best work, what is actually happening? Not the task. The feeling, the conditions, the kind of person you're serving.</div>
+      <div class="exp-hint">Describe it as a scene, not a job description.</div>
+      <textarea id="q6" placeholder="Close your eyes if it helps..." rows="4"></textarea>
+    </div>
+
+    <div class="sec-nav-row">
+      <button class="btn-back-sec" onclick="goBack('s-welcome')">← Back</button>
+      <div class="sec-progress-text">Section 1 of 4</div>
+      <button class="btn-next-sec" onclick="goSection('s-feel','nav-feel',1)">Continue to How You Feel →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 2: HOW YOU FEEL
+════════════════════════════════════ -->
+<div id="s-feel" class="screen">
+  <div class="section-nav">
+    <div class="nav-logo">DR. JOHNNA</div>
+    <div class="nav-steps">
+      <div class="nav-step done" id="nav-think2"><span class="step-check">✓</span> How You Think</div>
+      <div class="nav-step active" id="nav-feel2"><span class="step-check">2</span> How You Feel</div>
+      <div class="nav-step" id="nav-speak2"><span class="step-check">3</span> How You Communicate</div>
+      <div class="nav-step" id="nav-look2"><span class="step-check">4</span> How You Look</div>
+      <div class="nav-step" id="nav-out2"><span class="step-check">5</span> Your Blueprint</div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-eyebrow">Layer Two of Four</div>
+    <h2 class="section-title">How You Feel</h2>
+    <p class="section-sub">The Emotional Layer</p>
+    <div class="section-framing">
+      This is the layer most AI tools skip entirely. Identity isn't only a brain. It's feelings too. What you protect, what you will never compromise, and what you want people to feel when they're in your world. This is what makes AI output feel human, not just accurate.
+    </div>
+
+    <!-- Values builder -->
+    <div class="exp-block">      <div class="exp-question">What are the two or three values that are non-negotiable in how you run your business and show up for your clients?</div>
+      <div class="exp-hint">Name them, then tell me what each one actually means in how you operate. Not just the word. The meaning behind it.</div>
+      <div class="value-builder">
+        <div class="value-card">
+          <input type="text" class="value-name-inp" id="val1name" placeholder="Value one">
+          <input type="text" class="value-meaning-inp" id="val1mean" placeholder="What this actually means in how I work...">
+        </div>
+        <div class="value-card">
+          <input type="text" class="value-name-inp" id="val2name" placeholder="Value two">
+          <input type="text" class="value-meaning-inp" id="val2mean" placeholder="What this actually means in how I work...">
+        </div>
+        <div class="value-card">
+          <input type="text" class="value-name-inp" id="val3name" placeholder="Value three (optional)">
+          <input type="text" class="value-meaning-inp" id="val3mean" placeholder="What this actually means in how I work...">
+        </div>
+      </div>
+    </div>
+
+    <!-- First impression feeling -->
+    <div class="exp-block">      <div class="exp-question">What do you want someone to feel in the first 30 seconds of encountering your brand? Not think. Feel.</div>
+      <div class="exp-hint">Think about emotional atmosphere before a single word is read.</div>
+      <textarea id="q7" placeholder="Seen. Calm. Curious. Challenged. Use your own words..." rows="3" style="min-height:80px;"></textarea>
+    </div>
+
+    <!-- Alignment vs misalignment scale -->
+    <div class="exp-block">      <div class="exp-question">Describe what working in alignment feels like for you, versus working out of alignment.</div>
+      <div class="exp-hint">This contrast is important. Don't rush it.</div>
+      <div style="margin-bottom:16px;">
+        <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">In alignment, I feel...</div>
+        <textarea id="q8a" placeholder="Energized, clear, like time disappears..." rows="3" style="min-height:70px;"></textarea>
+      </div>
+      <div>
+        <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Out of alignment, I feel...</div>
+        <textarea id="q8b" placeholder="Drained, performing, disconnected from the work..." rows="3" style="min-height:70px;"></textarea>
+      </div>
+    </div>
+
+    <!-- Non-negotiable -->
+    <div class="exp-block">      <div class="exp-question">What is something you will not do in your business, even if it would make money?</div>
+      <div class="exp-hint">Your non-negotiables define your brand as clearly as what you will do.</div>
+      <textarea id="q9" placeholder="I will never..." rows="3" style="min-height:80px;"></textarea>
+    </div>
+
+    <!-- When work lands -->
+    <div class="exp-block">      <div class="exp-question">When your work lands exactly right, what has happened? What did you give, and what did they receive?</div>
+      <div class="exp-hint">This is the transformation you're actually in the business of delivering.</div>
+      <textarea id="q10" placeholder="The moment I know my work landed is when..." rows="4"></textarea>
+    </div>
+
+    <div class="sec-nav-row">
+      <button class="btn-back-sec" onclick="goBack('s-think')">← Back</button>
+      <div class="sec-progress-text">Section 2 of 4</div>
+      <button class="btn-next-sec" onclick="goSection('s-speak','nav-speak',2)">Continue to How You Communicate →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 3: HOW YOU COMMUNICATE
+════════════════════════════════════ -->
+<div id="s-speak" class="screen">
+  <div class="section-nav">
+    <div class="nav-logo">DR. JOHNNA</div>
+    <div class="nav-steps">
+      <div class="nav-step done"><span class="step-check">✓</span> How You Think</div>
+      <div class="nav-step done"><span class="step-check">✓</span> How You Feel</div>
+      <div class="nav-step active"><span class="step-check">3</span> How You Communicate</div>
+      <div class="nav-step"><span class="step-check">4</span> How You Look</div>
+      <div class="nav-step"><span class="step-check">5</span> Your Blueprint</div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-eyebrow">Layer Three of Four</div>
+    <h2 class="section-title">How You Communicate</h2>
+    <p class="section-sub">The Expression Layer</p>
+    <div class="section-framing">
+      Now we bring the thinking and the feeling into language. This is where your voice becomes something AI can actually replicate. Not approximate. Replicate. Your voice is not just tone. It is the behavior of your mind and heart on the page.
+    </div>
+
+    <!-- Origin story -->
+    <div class="exp-block">      <div class="exp-question">Tell me the short version of your story. Not your resume. The moment or season that made you understand exactly why you do this work.</div>
+      <div class="exp-hint">This becomes the thread running through everything your brand says.</div>
+      <textarea id="q11" placeholder="There was a moment when I realized..." rows="6"></textarea>
+    </div>
+
+    <!-- Raw voice -->
+    <div class="exp-block">      <div class="exp-question">Write three to five sentences exactly the way you would say them to a client who is about to give up on themselves. Do not edit. Do not polish. Just write.</div>
+      <div class="exp-hint">This is your rawest voice. The one that comes before you think about how it sounds. That's the voice AI needs to learn.</div>
+      <textarea id="q12" placeholder="Write it like you're in the room with them..." rows="5"></textarea>
+    </div>
+
+    <!-- Signature phrases chip input -->
+    <div class="exp-block">      <div class="exp-question">What words or phrases do you find yourself using constantly that feel distinctly like you?</div>
+      <div class="exp-hint">Type a phrase and press Enter to add it. Add as many as come to mind.</div>
+      <div class="chip-field" id="goodChips" onclick="document.getElementById('goodInput').focus()">
+        <input class="chip-input" id="goodInput" placeholder="Type a phrase and press Enter..." onkeydown="addChip(event,'goodInput','goodChips','good')">
+      </div>
+    </div>
+
+    <!-- Language to avoid chip input -->
+    <div class="exp-block">      <div class="exp-question">What words, phrases, or tones do people in your industry use that you will never use?</div>
+      <div class="exp-hint">Your refusals are as defining as your preferences. This tells AI what you will never sound like.</div>
+      <div class="chip-field" id="badChips" onclick="document.getElementById('badInput').focus()">
+        <input class="chip-input" id="badInput" placeholder="Type a word or phrase and press Enter..." onkeydown="addChip(event,'badInput','badChips','bad')">
+      </div>
+    </div>
+
+    <!-- Transformation intention -->
+    <div class="exp-block">      <div class="exp-question">Complete this: "I want people to read my words and feel _______, not _______."</div>
+      <div class="exp-hint">Then tell me a little about why that contrast matters to you.</div>
+      <div class="sentence-row" style="margin-bottom:12px;">
+        <div>
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">I want them to feel...</div>
+          <input type="text" class="text-inp" id="q13a" placeholder="Seen. Clear. Hopeful...">
+        </div>
+        <div class="sentence-connector">not</div>
+        <div>
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Not...</div>
+          <input type="text" class="text-inp" id="q13b" placeholder="Pressured. Shamed. Generic...">
+        </div>
+      </div>
+      <textarea id="q13c" placeholder="Why this contrast matters to me..." rows="3" style="min-height:70px;margin-top:8px;"></textarea>
+    </div>
+
+    <!-- Business basics -->
+    <div class="exp-block" style="background:var(--warm);padding:28px;border:1px solid var(--border);">      <div class="exp-question" style="font-size:18px;margin-bottom:20px;">A few quick details so your Blueprint is personalized.</div>
+      <div class="inp-row" style="margin-bottom:14px;">
+        <div>
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Your Name</div>
+          <input type="text" class="text-inp" id="userName" placeholder="Your full name">
+        </div>
+        <div>
+          <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Business Name (if you have one)</div>
+          <input type="text" class="text-inp" id="bizName" placeholder="Your brand or business name">
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Your Industry / Field</div>
+        <input type="text" class="text-inp" id="industry" placeholder="e.g. business coaching, wellness, consulting, creative services...">
+      </div>
+    </div>
+
+    <div class="sec-nav-row">
+      <button class="btn-back-sec" onclick="goBack('s-feel')">← Back</button>
+      <div class="sec-progress-text">Section 3 of 4</div>
+      <button class="btn-next-sec" onclick="goSection('s-look','nav-look',3)">Continue to How You Look →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     SECTION 4: HOW YOU LOOK
+════════════════════════════════════ -->
+<div id="s-look" class="screen">
+  <div class="section-nav">
+    <div class="nav-logo">DR. JOHNNA</div>
+    <div class="nav-steps">
+      <div class="nav-step done"><span class="step-check">✓</span> How You Think</div>
+      <div class="nav-step done"><span class="step-check">✓</span> How You Feel</div>
+      <div class="nav-step done"><span class="step-check">✓</span> How You Communicate</div>
+      <div class="nav-step active"><span class="step-check">4</span> How You Look</div>
+      <div class="nav-step"><span class="step-check">5</span> Your Blueprint</div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-eyebrow">Layer Four of Four</div>
+    <h2 class="section-title">How You Look</h2>
+    <p class="section-sub">The Visual Identity Layer</p>
+    <div class="section-framing">
+      Your visual identity is the first thing people experience before they ever read a word. It needs to match what's inside. This section captures what you have or gives you direction to build from. Either way, it becomes part of your Blueprint so AI can generate visuals, write design briefs, and create on-brand imagery for you.
+    </div>
+
+    <!-- Path selector -->
+    <div class="exp-block">      <div class="path-grid">
+        <div class="path-card" id="pathAcard" onclick="selectPath('A')">
+          <div class="path-lbl">Path A</div>
+          <div class="path-ttl">I have my brand colors and fonts</div>
+          <div class="path-dsc">I'll enter what I already use. My visual identity is established or mostly there.</div>
+        </div>
+        <div class="path-card" id="pathBcard" onclick="selectPath('B')">
+          <div class="path-lbl">Path B</div>
+          <div class="path-ttl">I'm building or refreshing</div>
+          <div class="path-dsc">I'd like direction. I'll answer a few questions and get a starting point to build from.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATH A -->
+    <div id="pathA-fields" style="display:none;">
+      <div class="exp-block">        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Primary Color</div>
+            <div class="color-field">
+              <input type="color" id="cA1" value="#1A1A1A" oninput="syncHex('cA1','hA1')">
+              <input type="text" class="color-hex" id="hA1" value="#1A1A1A" placeholder="#000000" oninput="syncPicker('hA1','cA1')">
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Secondary Color</div>
+            <div class="color-field">
+              <input type="color" id="cA2" value="#4DB8B8" oninput="syncHex('cA2','hA2')">
+              <input type="text" class="color-hex" id="hA2" value="#4DB8B8" placeholder="#000000" oninput="syncPicker('hA2','cA2')">
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Accent Color (optional)</div>
+            <div class="color-field">
+              <input type="color" id="cA3" value="#FEFCF9" oninput="syncHex('cA3','hA3')">
+              <input type="text" class="color-hex" id="hA3" value="#FEFCF9" placeholder="#000000" oninput="syncPicker('hA3','cA3')">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="exp-block">        <div class="inp-row">
+          <div>
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Heading Font</div>
+            <input type="text" class="text-inp" id="fontH" placeholder="e.g. DM Serif Display">
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Body Font</div>
+            <input type="text" class="text-inp" id="fontB" placeholder="e.g. DM Sans">
+          </div>
+        </div>
+      </div>
+      <div class="exp-block">        <div class="exp-hint">Three words that describe your visual identity.</div>
+        <input type="text" class="text-inp" id="vWords" placeholder="e.g. calm, editorial, grounded">
+      </div>
+    </div>
+
+    <!-- PATH B -->
+    <div id="pathB-fields" style="display:none;">
+      <div class="exp-block">        <div class="exp-question" style="font-size:18px;margin-bottom:8px;">Which direction feels most like the energy of your brand?</div>
+        <div class="exp-hint">This is a starting point to explore, not a final decision. Your visual identity will evolve as your business does.</div>
+        <div class="mood-grid" id="moodGrid">
+          <div class="mood-card" onclick="selectMood(this,'Clean Minimal')">
+            <div class="mood-swatch" style="background:#FAFAFA;">
+              <div class="mood-dot" style="background:#1A1A1A;"></div>
+              <div class="mood-dot" style="background:#CFCFCF;"></div>
+              <div class="mood-dot" style="background:#6B6B6B;"></div>
+            </div>
+            <div class="mood-info"><div class="mood-name">Clean Minimal</div><div class="mood-desc">Breathing room, calm authority. Less is everything.</div></div>
+          </div>
+          <div class="mood-card" onclick="selectMood(this,'Warm Editorial')">
+            <div class="mood-swatch" style="background:#F5EFE6;">
+              <div class="mood-dot" style="background:#8B5E3C;"></div>
+              <div class="mood-dot" style="background:#D4A97A;"></div>
+              <div class="mood-dot" style="background:#F5EFE6;"></div>
+            </div>
+            <div class="mood-info"><div class="mood-name">Warm Editorial</div><div class="mood-desc">Earthy, refined, magazine-quality. Sophisticated with soul.</div></div>
+          </div>
+          <div class="mood-card" onclick="selectMood(this,'Bold Structured')">
+            <div class="mood-swatch" style="background:#0D0D0D;">
+              <div class="mood-dot" style="background:#FFFFFF;"></div>
+              <div class="mood-dot" style="background:#C8F000;"></div>
+              <div class="mood-dot" style="background:#555;"></div>
+            </div>
+            <div class="mood-info"><div class="mood-name">Bold Structured</div><div class="mood-desc">High contrast, confident, modern. Presence that commands.</div></div>
+          </div>
+          <div class="mood-card" onclick="selectMood(this,'Soft Organic')">
+            <div class="mood-swatch" style="background:#F0EDE8;">
+              <div class="mood-dot" style="background:#9BBFB5;"></div>
+              <div class="mood-dot" style="background:#C8B8A2;"></div>
+              <div class="mood-dot" style="background:#E8DDD0;"></div>
+            </div>
+            <div class="mood-info"><div class="mood-name">Soft Organic</div><div class="mood-desc">Natural, grounded, textured warmth. Honest and human.</div></div>
+          </div>
+          <div class="mood-card" onclick="selectMood(this,'Rich Tonal')">
+            <div class="mood-swatch" style="background:#2C3E50;">
+              <div class="mood-dot" style="background:#4DB8B8;"></div>
+              <div class="mood-dot" style="background:#7FB3C8;"></div>
+              <div class="mood-dot" style="background:#1A252F;"></div>
+            </div>
+            <div class="mood-info"><div class="mood-name">Rich Tonal</div><div class="mood-desc">Deep, layered, expert. Authority with calm and depth.</div></div>
+          </div>
+          <div class="mood-card" onclick="selectMood(this,'Fresh Elevated')">
+            <div class="mood-swatch" style="background:#F8FBF8;">
+              <div class="mood-dot" style="background:#3D7A5A;"></div>
+              <div class="mood-dot" style="background:#A8D4B8;"></div>
+              <div class="mood-dot" style="background:#E8F4EC;"></div>
+            </div>
+            <div class="mood-info"><div class="mood-name">Fresh Elevated</div><div class="mood-desc">Clear, purposeful, growth-oriented. Without the hustle.</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="exp-block">        <div class="exp-hint">Optional but helpful. Knowing what you're not is often clearer than knowing what you are.</div>
+        <textarea id="wrongColors" placeholder="e.g. anything neon — it feels loud and performative, which is opposite to my energy..." rows="3" style="min-height:70px;"></textarea>
+      </div>
+    </div>
+
+    <div class="sec-nav-row">
+      <button class="btn-back-sec" onclick="goBack('s-speak')">← Back</button>
+      <div class="sec-progress-text">Section 4 of 4</div>
+      <button class="btn-next-sec" onclick="generateAll()">Generate My Blueprint →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     GENERATING
+════════════════════════════════════ -->
+<div id="s-gen" class="screen">
+  <div class="gen-rings">
+    <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+  </div>
+  <h2 class="gen-title">Building Your Brand Identity</h2>
+  <p class="gen-sub">Psychology-backed. Identity-first. Yours to keep.</p>
+  <ul class="gen-steps">
+    <li class="g-step" id="gs1"><span class="g-dot"></span>Mapping your cognitive patterns</li>
+    <li class="g-step" id="gs2"><span class="g-dot"></span>Synthesizing your emotional drivers</li>
+    <li class="g-step" id="gs3"><span class="g-dot"></span>Extracting brand voice and story</li>
+    <li class="g-step" id="gs4"><span class="g-dot"></span>Composing visual identity</li>
+    <li class="g-step" id="gs5"><span class="g-dot"></span>Writing mission, vision and positioning</li>
+    <li class="g-step" id="gs6"><span class="g-dot"></span>Generating AI training assets</li>
+    <li class="g-step" id="gs7"><span class="g-dot"></span>Crafting your AI Activation Block</li>
+  </ul>
+</div>
+
+<!-- ════════════════════════════════════
+     OUTPUT
+════════════════════════════════════ -->
+<div id="s-output" class="screen">
+  <div class="out-header">
+    <div class="out-eye">AI Identity Blueprint</div>
+    <h1 class="out-title">Your Brand Identity is Ready</h1>
+    <p class="out-name" id="outName"></p>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="openTab('tab-brand',this)">Brand Guide</button>
+    <button class="tab-btn" onclick="openTab('tab-ai',this)">AI Training Assets</button>
+    <button class="tab-btn" onclick="openTab('tab-activation',this)">Activation Block</button>
+  </div>
+
+  <!-- TAB 1: BRAND GUIDE -->
+  <div id="tab-brand" class="tab-content active">
+    <div id="brandGuideContent"></div>
+  </div>
+
+  <!-- TAB 2: AI TRAINING ASSETS -->
+  <div id="tab-ai" class="tab-content">
+
+    <!-- DOWNLOADS AT TOP -->
+    <div style="max-width:680px;margin-bottom:48px;">
+      <h3 style="font-family:'DM Serif Display',serif;font-size:28px;font-weight:300;margin-bottom:10px;line-height:1.2;">Your Brand Identity Assets</h3>
+      <p style="font-size:14px;color:var(--gray);margin-bottom:24px;line-height:1.75;">Your Brand Voice ready for any AI platform. Each file built for a different job. Scroll down to learn exactly how to use them and where each file belongs.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+        <button class="btn-dl" onclick="downloadPDF()" style="padding:12px 20px;font-size:11px;">↓ Brand Identity Guide (.pdf)</button>
+        <button class="btn-dl-out" onclick="downloadAIContext()" style="padding:12px 20px;font-size:11px;">↓ Brand Identity Guide (.txt)</button>
+        <button class="btn-dl-out" onclick="downloadSkillFile()" style="padding:12px 20px;font-size:11px;">↓ Brand Identity Guide (.skill)</button>
+        <button class="btn-dl-out" onclick="downloadSkillMd()" style="padding:12px 20px;font-size:11px;">↓ Brand Identity Guide (.md)</button>
+        <button class="btn-dl-out" onclick="downloadAITrainingAssets()" style="padding:12px 20px;font-size:11px;">↓ AI Training Assets (.txt)</button>
+      </div>
+    </div>
+
+    <!-- FILE TYPE EXPLAINER -->
+    <div style="max-width:680px;margin-bottom:48px;">
+      <h3 style="font-family:'DM Serif Display',serif;font-size:24px;font-weight:300;margin-bottom:16px;line-height:1.2;">What is each file for?</h3>
+      <p style="font-size:15px;line-height:1.85;color:var(--dark);opacity:.82;margin-bottom:28px;">Each file contains your complete brand identity. The format determines how and where you use it.</p>
+
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:36px;">
+
+        <div style="background:var(--white);border:1px solid var(--border);padding:18px 22px;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;">
+          <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--teal);font-style:italic;padding-top:2px;">.pdf</div>
+          <div>
+            <div style="font-weight:500;font-size:13px;margin-bottom:5px;">Brand Identity Guide (.pdf)</div>
+            <p style="font-size:13px;color:var(--gray);line-height:1.7;">Your polished, printable brand document. Share with designers or keep as a personal reference. Best for people, not prompts.</p>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-top:8px;font-weight:500;">Best for: Your team · Designer briefs · Personal reference</div>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);padding:18px 22px;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;">
+          <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--teal);font-style:italic;padding-top:2px;">.txt</div>
+          <div>
+            <div style="font-weight:500;font-size:13px;margin-bottom:5px;">Brand Identity Guide (.txt)</div>
+            <p style="font-size:13px;color:var(--gray);line-height:1.7;">Plain text. No formatting noise. AI reads this fast and cleanly across any platform. Your go-to for general AI training.</p>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-top:8px;font-weight:500;">Best for: Claude Project Knowledge · ChatGPT · Any AI with file upload</div>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);padding:18px 22px;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;">
+          <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--teal);font-style:italic;padding-top:2px;">.skill</div>
+          <div>
+            <div style="font-weight:500;font-size:13px;margin-bottom:5px;">Brand Identity Guide (.skill)</div>
+            <p style="font-size:13px;color:var(--gray);line-height:1.7;">A Claude-specific skill file. Install it once and Claude applies your brand voice automatically to any writing request, across all your conversations.</p>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-top:8px;font-weight:500;">Best for: Claude Skills (Settings &rarr; Capabilities &rarr; Skills &rarr; Add Skill)</div>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);padding:18px 22px;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;">
+          <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--teal);font-style:italic;padding-top:2px;">.md</div>
+          <div>
+            <div style="font-weight:500;font-size:13px;margin-bottom:5px;">Brand Identity Guide (.md)</div>
+            <p style="font-size:13px;color:var(--gray);line-height:1.7;">Markdown preserves structure that AI reads cleanly. Headings, lists, and emphasis stay intact. The native format Claude uses for knowledge and skill files.</p>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-top:8px;font-weight:500;">Best for: Claude Project Knowledge · Claude Memory · Any AI that reads markdown</div>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--border);padding:18px 22px;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;">
+          <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--teal);font-style:italic;padding-top:2px;">AI</div>
+          <div>
+            <div style="font-weight:500;font-size:13px;margin-bottom:5px;">AI Training Assets (.txt)</div>
+            <p style="font-size:13px;color:var(--gray);line-height:1.7;">A separate file containing all your platform-specific training blocks. Your activation block, Claude Projects instructions, ChatGPT custom instructions, and universal context block, all in one place.</p>
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-top:8px;font-weight:500;">Best for: Setting up Claude Projects · ChatGPT custom instructions · Any AI platform</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="background:var(--dark);padding:20px 24px;margin-bottom:20px;">
+        <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;font-weight:500;">Quick rule of thumb</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div style="font-size:13px;color:rgba(254,252,249,.75);line-height:1.65;"><strong style="color:var(--cream);">Sharing with humans?</strong><br>Use the .pdf</div>
+          <div style="font-size:13px;color:rgba(254,252,249,.75);line-height:1.65;"><strong style="color:var(--cream);">Training any AI tool?</strong><br>Use the .txt</div>
+          <div style="font-size:13px;color:rgba(254,252,249,.75);line-height:1.65;"><strong style="color:var(--cream);">Installing in Claude Skills?</strong><br>Use the .skill</div>
+          <div style="font-size:13px;color:rgba(254,252,249,.75);line-height:1.65;"><strong style="color:var(--cream);">Claude Project or Memory?</strong><br>Use the .md</div>
+        </div>
+      </div>
+
+      <div style="background:var(--dark);padding:20px 24px;margin-bottom:48px;">
+        <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;font-weight:500;">Claude Project vs. Claude Skill: what is the difference?</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div style="font-size:13px;color:rgba(254,252,249,.78);line-height:1.7;"><strong style="color:var(--cream);">Claude Project</strong><br>A dedicated workspace with memory. Upload your .md or .txt file to Project Knowledge and Claude references it every session inside that Project. Best for focused workflows like content creation or a specific client.</div>
+          <div style="font-size:13px;color:rgba(254,252,249,.78);line-height:1.7;"><strong style="color:var(--cream);">Claude Skill</strong><br>A permanent behavior installed across all of Claude. Upload your .skill file once and Claude applies your brand voice automatically to any writing request in any conversation, not just inside one Project.</div>
+        </div>
+      </div>
+
+      <div style="background:var(--dark);padding:20px 24px;margin-bottom:48px;">
+        <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;font-weight:500;">ChatGPT Project vs. Custom GPT: what is the difference?</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div style="font-size:13px;color:rgba(254,252,249,.78);line-height:1.7;"><strong style="color:var(--cream);">ChatGPT Project</strong><br>An organized workspace inside ChatGPT where you can upload files, save conversations, and keep related work in one place. Upload your .txt file to a Project so ChatGPT always has your brand identity available in those conversations.</div>
+          <div style="font-size:13px;color:rgba(254,252,249,.78);line-height:1.7;"><strong style="color:var(--cream);">Custom GPT</strong><br>Your own personalized AI assistant built on ChatGPT's engine. You configure it with your instructions, upload your brand files, and it runs as a standalone tool you can use yourself or share with others. Think of it as a branded AI version of you, powered by ChatGPT.</div>
+        </div>
+      </div>
+
+    </div>
+    <div id="aiToolsContent"></div>
+  </div>
+
+  <!-- TAB 3: ACTIVATION BLOCK -->
+  <div id="tab-activation" class="tab-content">
+    <h3 style="font-family:'DM Serif Display',serif;font-size:28px;font-weight:300;margin-bottom:12px;">Your AI Activation Block</h3>
+    <p style="font-size:14px;color:var(--gray);margin-bottom:28px;line-height:1.75;max-width:600px;">This is the single most valuable thing in your Blueprint. One paragraph that synthesizes all four identity layers into a priming instruction any AI tool can use. Paste it anywhere, any time, before you start working.</p>
+    <div class="activation-hero">
+      <div class="act-lbl">Master Context Block · Ready to Use</div>
+      <div class="act-text" id="activationBlockText"></div>
+      <button class="act-copy" onclick="copyText('activationBlockText',this)">Copy to Clipboard</button>
+    </div>
+    <div class="evol-note">
+      <p><strong>Your identity evolves.</strong> Come back and update your Blueprint as your business grows. What's true today may expand six months from now. That's not inconsistency. That's growth.</p>
+    </div>
+  </div>
+
+  <!-- DOWNLOADS & UPSELL -->
+  <div class="dl-zone">
+    <h2 class="dl-title">Your Brand Identity Assets</h2>
+    <p class="dl-sub">Your Brand Voice ready for any AI platform.</p>
+    <div class="dl-btns">
+      <button class="btn-dl" onclick="downloadPDF()">↓ Brand Identity Guide (.pdf)</button>
+      <button class="btn-dl-out" onclick="downloadAIContext()">↓ Brand Identity Guide (.txt)</button>
+      <button class="btn-dl-out" onclick="downloadSkillFile()">↓ Brand Identity Guide (.skill)</button>
+      <button class="btn-dl-out" onclick="downloadSkillMd()">↓ Brand Identity Guide (.md)</button>
+      <button class="btn-dl-out" onclick="downloadAITrainingAssets()">↓ AI Training Assets (.txt)</button>
+    </div>
+
+    <div class="upsell">
+      <div class="ups-eye">Your next step</div>
+      <h3 class="ups-ttl">Your Blueprint is the foundation.<br>Legacy Lab is where you build on it.</h3>
+      <p class="ups-txt">A community of high-achieving women doing the same inside-out work. Trainings, templates, live sessions, and AI tools built around the same psychology-first methodology that created your Blueprint.</p>
+      <a href="https://brandstudio.drjohnna.co/" class="ups-link" target="_blank">Explore Brand Studio</a>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════ -->
+<script>
+const state={answers:{},chips:{good:[],bad:[]},path:null,mood:null};
+
+/* ─ PROGRESS ─ */
+const screens=['s-welcome','s-think','s-feel','s-speak','s-look','s-gen','s-output'];
+function setProgress(id){
+  const i=screens.indexOf(id);
+  document.getElementById('topFill').style.width=(i/(screens.length-1)*100)+'%';
+}
+
+/* ─ NAVIGATION ─ */
+function goScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  setProgress(id);
+  window.scrollTo(0,0);
+}
+
+function startJourney(){goScreen('s-think');}
+function goBack(id){goScreen(id);}
+
+function goSection(id,navId,num){
+  collectSection(num);
+  goScreen(id);
+}
+
+/* ─ CHIPS ─ */
+function addChip(e,inputId,containerId,type){
+  if(e.key!=='Enter'&&e.key!==',')return;
+  e.preventDefault();
+  const inp=document.getElementById(inputId);
+  const val=inp.value.trim();
+  if(!val)return;
+  state.chips[type].push(val);
+  const chip=document.createElement('span');
+  chip.className='chip'+(type==='bad'?' bad':'');
+  chip.innerHTML=val+' <span class="chip-x" onclick="removeChip(this,\''+type+'\',\''+val+'\')">×</span>';
+  document.getElementById(containerId).insertBefore(chip,inp);
+  inp.value='';
+}
+function removeChip(el,type,val){
+  state.chips[type]=state.chips[type].filter(v=>v!==val);
+  el.parentElement.remove();
+}
+
+/* ─ PATH & MOOD ─ */
+function selectPath(p){
+  state.path=p;
+  document.getElementById('pathAcard').classList.toggle('sel',p==='A');
+  document.getElementById('pathBcard').classList.toggle('sel',p==='B');
+  document.getElementById('pathA-fields').style.display=p==='A'?'block':'none';
+  document.getElementById('pathB-fields').style.display=p==='B'?'block':'none';
+}
+function selectMood(el,name){
+  document.querySelectorAll('.mood-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');state.mood=name;
+}
+
+/* ─ COLOR SYNC ─ */
+function syncHex(pid,hid){document.getElementById(hid).value=document.getElementById(pid).value;}
+function syncPicker(hid,pid){const v=document.getElementById(hid).value;if(/^#[0-9A-Fa-f]{6}$/.test(v))document.getElementById(pid).value=v;}
+
+/* ─ COLLECT ─ */
+function collectSection(n){
+  const fields={
+    1:['q1','q2','q3a','q3b','q4','q5','q6'],
+    2:['val1name','val1mean','val2name','val2mean','val3name','val3mean','q7','q8a','q8b','q9','q10'],
+    3:['q11','q12','q13a','q13b','q13c','userName','bizName','industry']
+  };
+  (fields[n]||[]).forEach(id=>{const el=document.getElementById(id);if(el)state.answers[id]=el.value.trim();});
+}
+function collectAll(){
+  collectSection(1);collectSection(2);collectSection(3);
+  if(state.path==='A'){
+    state.answers.colorPrimary=document.getElementById('hA1')?.value||'';
+    state.answers.colorSecondary=document.getElementById('hA2')?.value||'';
+    state.answers.colorAccent=document.getElementById('hA3')?.value||'';
+    // Read live values directly at generate time to avoid stale state
+    const fontHEl=document.getElementById('fontH');
+    const fontBEl=document.getElementById('fontB');
+    const vWordsEl=document.getElementById('vWords');
+    state.answers.fontH=(fontHEl&&fontHEl.value.trim())?fontHEl.value.trim():'';
+    state.answers.fontB=(fontBEl&&fontBEl.value.trim())?fontBEl.value.trim():'';
+    state.answers.vWords=(vWordsEl&&vWordsEl.value.trim())?vWordsEl.value.trim():'';
+  }else{
+    state.answers.mood=state.mood||'';
+    state.answers.wrongColors=document.getElementById('wrongColors')?.value||'';
+  }
+}
+
+/* ─ GENERATE ─ */
+async function generateAll(){
+  collectAll();
+  if(!state.answers.userName){alert('Please enter your name in Section 3 before generating.');return;}
+  goScreen('s-gen');
+  const steps=['gs1','gs2','gs3','gs4','gs5','gs6','gs7'];
+  steps.forEach((s,i)=>{
+    setTimeout(()=>{
+      if(i>0)document.getElementById(steps[i-1]).classList.replace('active','done');
+      document.getElementById(s).classList.add('active');
+    },i*1600);
+  });
+
+  try{
+    const res=await fetch('/api/generate',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system:buildSystemPrompt(),
+        user:buildUserPrompt()
+      })
+    });
+    const data=await res.json();
+    const txt=data.content?.[0]?.text||data.text||'';
+    let bp;
+    try{bp=JSON.parse(txt.replace(/```json|```/g,'').trim());}
+    catch(e){bp=fallback();}
+    setTimeout(()=>{
+      document.getElementById(steps[steps.length-1]).classList.replace('active','done');
+      setTimeout(()=>renderAll(bp),700);
+    },steps.length*1600+400);
+  }catch(err){
+    console.error(err);
+    setTimeout(()=>renderAll(fallback()),steps.length*1600+400);
+  }
+}
+
+/* ─ SYSTEM PROMPT ─ */
+function buildSystemPrompt(){
+  return `You are Dr. Johnna Richardson's AI Identity Blueprint generator. Dr. Johnna is a Doctor of Psychology and identity-based business strategist. Her core methodology: identity first, strategy follows. A business can only grow as far as the identity of the person building it.
+
+PSYCHOLOGY FRAMEWORKS IN USE:
+- CBT Cognitive Triangle: thoughts (cognitive), emotions (emotional), behaviors (expression) are interconnected. Surface all three layers from the answers.
+- Positive Psychology: build from strengths, not deficits. Everything is written from what this person is built for.
+- Identity Consistency Theory: write mission and positioning toward who they are becoming, not just who they are now.
+- Narrative Identity Theory: the person's story is a thread woven through all sections.
+- Strengths-Based Psychology: amplify what's working. Never frame from gaps.
+
+WRITING STYLE: Warm, precise, psychologically grounded. No hype. No hustle language. No em dashes (use colons or periods instead). Natural contractions. Short punchy sentences mixed with longer ones.
+
+CRITICAL TYPOGRAPHY RULE: If the user provided specific font names in their visual identity answers (Path A), you MUST use exactly those fonts in typography.heading and typography.body. Do not substitute or suggest alternatives. Only generate font suggestions if Path B was selected and no fonts were provided.
+
+OUTPUT: Return ONLY valid JSON. No markdown code fences. No preamble. No text outside the JSON.
+
+JSON STRUCTURE:
+{
+  "missionPurpose": "2-3 sentences. Their WHY at a soul level. Not corporate. Human and specific.",
+  "visionStatement": "One forward-looking sentence about the world they're building toward.",
+  "brandPersonality": ["5-7 specific personality traits that sound like a person, not a brand template"],
+  "coreValues": [{"name":"Value","meaning":"What this means in practice for this specific person"}],
+  "brandPositioning": "2-3 sentences on what makes this person distinctly different. Specific, not generic.",
+  "uniqueSellingProposition": "One clear sentence. Only they can deliver this, in the way only they deliver it.",
+  "targetAudience": "A rich paragraph. Identity journey, emotional state, what they carry, what they want, what they've tried.",
+  "cognitiveLayer": "A paragraph synthesizing how this person thinks: worldview, diagnostic lens, contrarian beliefs, what they see others miss.",
+  "emotionalLayer": "A paragraph capturing emotional drivers: values in action, non-negotiables, what alignment feels like, what they protect.",
+  "expressionLayer": "A paragraph describing how this person communicates: voice, signature language, what they refuse to say, the feeling they want to leave.",
+  "brandStory": "3-4 sentences. The origin narrative as a thread, not a resume.",
+  "messagingPillars": [
+    {"pillar":"Name","description":"One sentence on what this pillar means for their brand communication."},
+    {"pillar":"Name","description":"One sentence."},
+    {"pillar":"Name","description":"One sentence."},
+    {"pillar":"Name","description":"One sentence."}
+  ],
+  "signaturePhrases": ["8-12 specific phrases that sound like this person. Pulled from their actual voice."],
+  "languageToAvoid": ["5-8 specific words, phrases, or tones with brief reason"],
+  "visualIdentity": {
+    "direction": "2-3 sentences describing the visual world of this brand. Sensory and specific.",
+    "palette": [
+      {"name":"Color name","hex":"#000000","role":"Primary","reasoning":"Why this color fits this specific person"}
+    ],
+    "typography": {"heading":"Font name","body":"Font name","reasoning":"One sentence on why this pairing fits."},
+    "visualKeywords": ["5-7 sensory visual direction words"],
+    "pathNote": "If Path B: 'This is a starting direction. Bring it to a designer or design tool. Your visual identity will evolve as your business does.' If Path A: ''"
+  },
+  "activationBlock": "150-220 words. Begin: 'When creating content for [name]...' Synthesize all four identity layers into one rich AI priming instruction. Third person. Specific enough that an AI receiving this would never produce generic output. Include: how they think, what they believe, how they feel about their work, how they communicate (voice, vocabulary, what they refuse to say), and their visual world. This is the crown of the Blueprint.",
+  "claudeProjectInstructions": "120-160 words formatted as a Claude Project custom instructions block. Begin: 'You are working with [name]...' Cover: their methodology, communication style, vocabulary to use and avoid, transformation they deliver, the feeling their content should leave. Written to be pasted directly into Claude Projects > Instructions field.",
+  "chatGPTCustomInstructions": {
+    "aboutMe": "80-100 words for ChatGPT 'What would you like ChatGPT to know about you?' field. First person. Cover: who they are, what they do, who they serve, their core philosophy, and 2-3 non-negotiable values.",
+    "responseStyle": "80-100 words for ChatGPT 'How would you like ChatGPT to respond?' field. First person. Cover: tone, language to use, language to avoid, sentence rhythm, the feeling their content should produce."
+  },
+  "claudeSkillBlock": "A comprehensive brand voice SKILL.md file. Use EXACTLY this structure:\n\n---\nname: [Name] Brand Voice\ndescription: Apply [Name]'s brand voice to all writing, content creation, and copy. Use this skill whenever writing ANY content for [Name] including social media posts, email sequences, sales pages, website copy, video scripts, podcast scripts, blog posts, captions, CTAs, course materials, or any other written output. Also trigger when asked to 'write in my voice,' 'write copy,' 'create content,' 'draft a post,' 'write an email,' or any request involving [Name]'s brand, audience, or business. When in doubt, use this skill. It is better to apply it unnecessarily than to miss it.\n---\n\n# [Name] Brand Voice & Identity\n\n## Who They Are\n[2-3 sentences. Their expertise, methodology, and the psychology-backed foundation of their work. Specific to this person.]\n\n## Core Philosophy\n[2-3 sentences capturing their worldview. Should feel like a conviction, not a tagline. Rooted in their actual answers.]\n\n## Who They Serve\n[2 sentences. Describe their audience by identity journey and emotional state. Never by job title or demographic.]\n\n## How They Think\n[2-3 sentences. Their diagnostic lens, contrarian beliefs, what they see that others miss. Pulled from their cognitive layer answers.]\n\n## How They Feel About Their Work\n[2 sentences. Emotional drivers, what alignment means to them, their non-negotiables. From their emotional layer answers.]\n\n## Communication Style\n- [Tone directive specific to this person]\n- [Sentence rhythm: short punchy mixed with longer]\n- [Contractions: always use natural contractions]\n- [Em dashes: never use em dashes]\n- [Any other specific voice rules from their answers]\n- [The emotional intention: reader should feel X]\n\n## Signature Phrases — Use These\n[10-12 bullet points of their actual signature language from their answers]\n\n## Never Use\n[7-9 bullet points. Specific refused words, phrases, tones. Include one-line reason for each based on their values.]\n\n## Transformation They Deliver\n[1-2 sentences. The specific before-and-after their clients experience. Human language, not outcome metrics.]\n\n## Visual World\n[1 sentence describing their aesthetic for image generation and design prompts.]",
+  "brandVoiceOneLiner": "One sentence. The most distilled version of their brand voice. Should feel like something they could tattoo on the wall above their desk."
+}`;
+}
+
+function buildUserPrompt(){
+  const a=state.answers;
+  const chips=state.chips;
+  const vis=state.path==='A'
+    ?`Visual Path: Existing brand\nPrimary: ${a.colorPrimary}\nSecondary: ${a.colorSecondary}\nAccent: ${a.colorAccent}\nHeading Font: ${a.fontH}\nBody Font: ${a.fontB}\nVisual Feel: ${a.vWords}`
+    :`Visual Path: Building/refreshing\nMood Direction: ${a.mood}\nColors that feel wrong: ${a.wrongColors||'not specified'}`;
+  return `Generate a complete AI Identity Blueprint for this person.
+
+NAME: ${a.userName}
+BUSINESS: ${a.bizName||'Not yet named'}
+INDUSTRY: ${a.industry}
+
+=== LAYER 1: HOW THEY THINK ===
+Contrarian belief: ${a.q1}
+What they see underneath the problem: ${a.q2}
+Most people in their space: ${a.q3a}
+They believe: ${a.q3b}
+How they've evolved: ${a.q4}
+Who they serve: ${a.q5}
+What their best work feels like: ${a.q6}
+
+=== LAYER 2: HOW THEY FEEL ===
+Value 1: ${a.val1name} — ${a.val1mean}
+Value 2: ${a.val2name} — ${a.val2mean}
+Value 3: ${a.val3name||'not specified'} — ${a.val3mean||''}
+First 30 seconds brand feeling: ${a.q7}
+In alignment: ${a.q8a}
+Out of alignment: ${a.q8b}
+Will never do: ${a.q9}
+When work lands right: ${a.q10}
+
+=== LAYER 3: HOW THEY COMMUNICATE ===
+Origin story: ${a.q11}
+Raw voice (unedited): ${a.q12}
+Signature phrases (self-identified): ${chips.good.join(', ')||'not provided'}
+Language they refuse: ${chips.bad.join(', ')||'not provided'}
+Want people to feel: ${a.q13a}
+Not: ${a.q13b}
+Why that matters: ${a.q13c}
+
+=== LAYER 4: HOW THEY LOOK ===
+${vis}
+
+Generate the complete Blueprint JSON now.`;
+}
+
+/* ─ FALLBACK ─ */
+function fallback(){
+  const name=state.answers.userName||'You';
+  return {
+    missionPurpose:`${name}'s work exists at the intersection of deep expertise and genuine human care. The mission is not to produce more output. It is to help the right people build something that actually belongs to them, and feels that way every single day.`,
+    visionStatement:`A world where every founder builds from who they actually are, not from a blueprint someone else designed.`,
+    brandPersonality:["Psychologically grounded","Warmly direct","Quietly confident","Anti-performance","Depth-oriented","Precision with warmth"],
+    coreValues:[{name:"Alignment",meaning:"Success that costs your integrity isn't success. Every decision runs through this filter first."},{name:"Depth over volume",meaning:"One right client served well over ten wrong ones served adequately."},{name:"Honest clarity",meaning:"No softening what's true. No sharpening it past kind. Just the truth, said well."}],
+    brandPositioning:`In a space crowded with tactical frameworks and borrowed blueprints, ${name} works from the inside out. Not because it's a differentiator. Because it's the only direction transformation actually runs.`,
+    uniqueSellingProposition:`${name} helps people see the thing underneath the thing, then builds from there.`,
+    targetAudience:`The person ${name} serves is accomplished and knows it. They have credentials, results, a reputation. But something isn't fitting anymore, or hasn't been built yet, and they can't quite name why. They've tried tactics. They've tried rebrands. They keep arriving at the same friction. What they actually need is someone who can see them clearly and help them build from who they genuinely are.`,
+    cognitiveLayer:`${name} thinks in layers. When someone presents a problem, ${name} is already looking underneath it for the pattern the client hasn't named yet. This isn't technique. It's the natural result of years of psychological training applied to the lived reality of building a business. The contrarian perspective isn't performed. It's what happens when someone thinks more carefully about something than most people are willing to.`,
+    emotionalLayer:`${name} is motivated by alignment, not achievement. The distinction matters in practice. Work that looks successful but feels hollow is not success. Non-negotiables are structural, not soft. They're the foundation everything else is built on. And what ${name} wants most for every client is that specific feeling of exhaling into work that finally fits.`,
+    expressionLayer:`${name}'s voice is calm and direct. Warmth is not performed. It's present in the precision. Short sentences that land hard. Longer ones that carry the reader somewhere. The language is specific, not generic. The refusals are as defining as the preferences. And the intention behind every word is to leave people clearer and more hopeful than they arrived.`,
+    brandStory:`There was a moment when ${name} understood that the problem was never the strategy. It was the foundation the strategy was built on. That recognition changed everything. Not in a dramatic way. In the slow, certain way that real shifts happen. And that's exactly what ${name} now helps others find.`,
+    messagingPillars:[
+      {pillar:"Identity First",description:"Every strategy, offer, and decision begins with who this person actually is, not what the market demands."},
+      {pillar:"Inside-Out Methodology",description:"Sustainable success is built from internal clarity outward. Never the reverse."},
+      {pillar:"Psychology-Backed Depth",description:"Frameworks rooted in human behavior and positive psychology, not surface tactics."},
+      {pillar:"Alignment as Strategy",description:"When your business reflects who you are, the right clients find you without performance."}
+    ],
+    signaturePhrases:["Build from the inside out","Identity first, strategy follows","The thing underneath the thing","You're not starting over. You're starting from who you've become.","That feeling is data","Build something that actually feels like you"],
+    languageToAvoid:["Hustle or grind — implies sacrifice is the measure of commitment","6 figures fast — false urgency","Crush it — performative and hollow","Scale aggressively — contradicts everything this brand stands for","Unlock your potential — generic, no one believes it anymore"],
+    visualIdentity:{
+      direction:`${name}'s visual world is calm and precise. Generous white space. Refined typography. A palette that suggests authority without coldness. The aesthetic says: this person has thought carefully about what they do. And they expect the same from you.`,
+      palette:[{name:"Deep Charcoal",hex:"#1A1A1A",role:"Primary",reasoning:"Grounds the brand in depth and expertise."},{name:"Soft Cream",hex:"#FEFCF9",role:"Secondary",reasoning:"Creates breathing room. The visual equivalent of rest."},{name:"Clarity Teal",hex:"#4DB8B8",role:"Accent",reasoning:"Psychological associations with clarity, renewal, and calm communication."}],
+      typography:{heading:"DM Serif Display",body:"DM Sans",reasoning:"Classic serif depth paired with clean sans-serif accessibility. The balance this methodology lives in."},
+      visualKeywords:["calm","editorial","spacious","refined","grounded","intentional"],
+      pathNote:""
+    },
+    activationBlock:`When creating content for ${name}, understand that everything is built from the inside out. This person thinks in layers, always looking underneath the presenting problem for what the client hasn't named yet. Their contrarian lens is not performed. It is the result of deep psychological training and lived experience applied to the work of building a business. They are emotionally driven by alignment, not achievement, and will immediately reject any output that feels performative, urgent, or hustle-adjacent. Their voice is warm and direct: short punchy sentences mixed with longer considered ones. Natural contractions. No em dashes. They refuse to use language like crush it, scale, leverage, unlock your potential, or false urgency of any kind. The feeling they want to leave is: seen, relieved, clear, and hopeful. Not inspired in an empty way. Specifically clear. When writing for ${name}, always begin with identity before tactics, the person before the strategy, and the feeling before the instruction.`,
+    claudeProjectInstructions:`You are working with ${name}, a psychology-backed business strategist and coach whose methodology is identity first, strategy follows. Their work is built from the inside out. Always begin with who the client is before what they should do. Voice is warm and direct: calm confidence, short punchy sentences mixed with longer ones, natural contractions, no em dashes. Never use hustle language, false urgency, or generic phrases like unlock your potential or crush it. The transformation ${name} delivers is clarity and alignment, not tactics. Their audience is accomplished, credentialed, and deeply skeptical of hype. Every piece of content should leave the reader feeling seen, clear, and hopeful. Always lead with identity before strategy.`,
+    chatGPTCustomInstructions:{
+      aboutMe:`I'm ${name}, a psychology-backed business strategist. I help high-achieving women build identity-aligned businesses from the inside out using CBT-informed frameworks and positive psychology. My core belief: a business can only grow as far as the identity of the person building it. I serve two clients: the Dreamer (expert ready to build) and the Rebuilder (founder ready to realign). My non-negotiables are depth, alignment, and honesty.`,
+      responseStyle:`Always write in a warm, direct voice. Calm confidence, not cheerleading. Short punchy sentences mixed with longer ones. Use natural contractions. Never use em dashes. Never use hustle language like grind, crush it, or scale aggressively. Never create false urgency. The content should leave readers feeling seen, clear, and hopeful. Lead with identity and psychology before tactics.`
+    },
+    claudeSkillBlock:`---\nname: ${name} Brand Voice\ndescription: Apply ${name}'s brand voice to all writing, content creation, and copy. Use this skill whenever writing ANY content for ${name} including social media posts, email sequences, sales pages, website copy, video scripts, podcast scripts, blog posts, captions, CTAs, course materials, or any other written output. Also trigger when asked to write in my voice, write copy, create content, draft a post, write an email, or any request involving ${name}'s brand, audience, or business. When in doubt, use this skill. It is better to apply it unnecessarily than to miss it.\n---\n\n# ${name} Brand Voice & Identity\n\n## Who They Are\n${name} is a psychology-backed business strategist and coach whose entire methodology is built on one truth: identity first, strategy follows. Their work draws from CBT, positive psychology, and 20+ years of applied experience to help founders build from the inside out.\n\n## Core Philosophy\nA business can only grow as far as the identity of the person building it. Most business education is outside-in. ${name} works in the opposite direction: clarity on who you are comes first, then strategy, then offers. There are no shortcuts through this sequence.\n\n## Who They Serve\nHigh-achieving experts who are either standing at the edge of building something of their own, or established founders who have outgrown the business they originally built. Defined by where they are in their identity journey, never by job title or industry.\n\n## How They Think\n${name} thinks in layers. When a client presents a problem, the real question is always what's underneath it. They have a pattern recognition that comes from years of psychological training applied to the lived reality of entrepreneurship. Their contrarian perspective is not performed. It's the natural result of thinking more carefully about something than most people are willing to.\n\n## How They Feel About Their Work\nMotivated by alignment, not achievement. Work that looks successful but feels hollow is not success. Their non-negotiables are structural, not soft. They will not compromise depth, honesty, or identity-first framing even when a tactical shortcut would be easier.\n\n## Communication Style\n- Warm and direct. Calm confidence, never cheerleading.\n- Short punchy sentences mixed with longer considered ones.\n- Natural contractions always (you're, I've, don't, that's).\n- Never use em dashes. Use colons or periods instead.\n- No hustle language, no false urgency, no shame-based motivation.\n- The reader should finish every piece feeling seen, clear, and specifically hopeful.\n\n## Signature Phrases — Use These\n- Build from the inside out\n- Identity first, strategy follows\n- That feeling is data\n- The thing underneath the thing\n- You're not starting over. You're starting from who you've become.\n- Build something that actually feels like you\n- A business can only grow as far as the identity of the person building it\n- Be it before you build it\n- Your brand isn't a strategy. It's who you are.\n- This is what alignment actually feels like\n- No hustle required\n- The problem isn't your work ethic\n\n## Never Use\n- Hustle, grind, crush it, dominate: implies sacrifice is the measure of commitment\n- Scale aggressively, leverage, optimize: contradicts the identity-first philosophy\n- Unlock your potential, live your best life: generic, no one believes it\n- 6 figures fast, overnight results: false urgency that erodes trust\n- Boss babe, girl boss, go-getter: reductive and hollow\n- Em dashes: non-negotiable formatting rule\n- Exclamation marks more than once per piece\n- Generic phrases like I'm so excited to share or This one's for you\n\n## Transformation They Deliver\nClients move from credentialed and undermonetized, or successful and misaligned, to building a business that finally feels like coming home. Not inspired in an empty way. Specifically clear and grounded.\n\n## Visual World\nCalm, editorial, spacious. Deep charcoal (#1A1A1A), soft cream (#FEFCF9), clarity teal (#4DB8B8). DM Serif Display headings, Switzer body. Generous white space. The aesthetic of someone who has thought carefully about everything they do.`,
+    brandVoiceOneLiner:`${name} helps people build businesses that feel like coming home.`
+  };
+}
+
+/* ─ RENDER ─ */
+function renderAll(bp){
+  state.bp=bp; // store for downloads
+  const name=state.answers.userName||'Your';
+  const biz=state.answers.bizName?` · ${state.answers.bizName}`:'';
+  document.getElementById('outName').textContent=name+biz;
+
+  renderBrandGuide(bp);
+  renderAIAssets(bp);
+  document.getElementById('activationBlockText').textContent=bp.activationBlock||'';
+  goScreen('s-output');
+}
+
+function renderBrandGuide(bp){
+  const el=document.getElementById('brandGuideContent');
+  const values=(bp.coreValues||[]).map(v=>`<div class="val-item"><div class="val-name">${v.name||''}</div><div class="val-meaning">${v.meaning||''}</div></div>`).join('');
+  const pillars=(bp.messagingPillars||[]).map((p,i)=>`<div class="pillar-card"><div class="pillar-n">${i+1}</div><div><div class="pillar-name">${p.pillar||''}</div><div class="pillar-desc">${p.description||''}</div></div></div>`).join('');
+  const goodTags=(bp.signaturePhrases||[]).map(p=>`<span class="tag teal">${p}</span>`).join('');
+  const badTags=(bp.languageToAvoid||[]).map(p=>`<span class="tag red">${p}</span>`).join('');
+  const palette=(bp.visualIdentity?.palette||[]).map(c=>`<div class="chip-color"><div class="chip-swatch" style="background:${c.hex};"></div><div class="chip-hex">${c.hex}</div><div class="chip-name">${c.name}</div></div>`).join('');
+  const personalityTags=(bp.brandPersonality||[]).map(p=>`<span class="tag teal">${p}</span>`).join('');
+  const vKeywords=(bp.visualIdentity?.visualKeywords||[]).map(k=>`<span class="tag">${k}</span>`).join('');
+
+  el.innerHTML=`
+    <div style="background:var(--dark);color:rgba(254,252,249,.8);padding:20px 24px;margin-bottom:40px;font-size:13px;font-style:italic;font-family:'DM Serif Display',serif;font-size:18px;text-align:center;line-height:1.5;">"${bp.brandVoiceOneLiner||''}"</div>
+
+    ${bpsec('01','Mission & Purpose','Why You Exist',`<div class="bp-body"><p>${bp.missionPurpose||''}</p><p style="font-family:'DM Serif Display',serif;font-size:18px;font-style:italic;color:var(--gray);margin-top:16px;">${bp.visionStatement||''}</p></div>`)}
+    ${bpsec('02','Who You Serve','Target Audience',`<div class="bp-body"><p>${bp.targetAudience||''}</p></div>`)}
+    ${bpsec('03','Brand Positioning & USP','What Makes You Different',`<div class="bp-body"><p>${bp.brandPositioning||''}</p><div class="usp-callout"><div class="usp-lbl">Your Unique Value</div><div class="usp-text">${bp.uniqueSellingProposition||''}</div></div></div>`)}
+    ${bpsec('04','Brand Personality','How You Show Up',`<div class="tag-row">${personalityTags}</div>`)}
+    ${bpsec('05','Core Values','What You Stand For',`<div>${values}</div>`)}
+    ${bpsec('06','How You Think','Cognitive Layer',`<div class="bp-body"><p>${bp.cognitiveLayer||''}</p></div>`)}
+    ${bpsec('07','How You Feel','Emotional Layer',`<div class="bp-body"><p>${bp.emotionalLayer||''}</p></div>`)}
+    ${bpsec('08','How You Communicate','Expression Layer',`<div class="bp-body"><p>${bp.expressionLayer||''}</p><div class="tag-row" style="margin-top:20px;">${goodTags}</div><div style="margin-top:16px;"><div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:10px;">Language to Avoid</div><div class="tag-row">${badTags}</div></div></div>`)}
+    ${bpsec('09','Brand Story','Your Origin Thread',`<div class="bp-body"><p style="font-family:'DM Serif Display',serif;font-size:20px;font-style:italic;line-height:1.65;">${bp.brandStory||''}</p></div>`)}
+    ${bpsec('10','Messaging Pillars','What Your Brand Consistently Communicates',`<div>${pillars}</div>`)}
+    ${bpsec('11','Visual Identity','How You Look',`<div class="bp-body"><p>${bp.visualIdentity?.direction||''}</p><div class="palette-row">${palette}</div><div style="margin-top:20px;"><div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Typography</div><p style="font-size:15px;">${bp.visualIdentity?.typography?.heading||''} (headings) · ${bp.visualIdentity?.typography?.body||''} (body)</p><p style="font-size:13px;color:var(--gray);margin-top:6px;font-style:italic;">${bp.visualIdentity?.typography?.reasoning||''}</p></div><div class="tag-row" style="margin-top:16px;">${vKeywords}</div>${state.path==='B'?'<p style="font-size:13px;color:var(--gray);margin-top:20px;padding:14px 18px;background:var(--warm);border-left:2px solid var(--border);line-height:1.7;">This is a directional starting point. Bring it to a designer or design tool. Your visual identity will evolve as your business does.</p>':''}</div>`)}
+  `;
+}
+
+function bpsec(num,title,sub,content){
+  return `<div class="bp-section"><div class="bp-sec-hd"><div class="bp-num">${num}</div><div class="bp-title">${title}</div><div class="bp-sub">${sub}</div></div>${content}</div>`;
+}
+
+function renderDownloadBtns(t){
+  var s='<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">';
+  s+='<button onclick="'+t.downloadFn+'()" style="background:transparent;border:1px solid var(--teal);color:var(--teal);padding:10px 20px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:\'Switzer\',sans-serif;transition:all .2s ease;" onmouseover="this.style.background=\'var(--teal-light)\'" onmouseout="this.style.background=\'transparent\'">&#8595; '+t.downloadLabel+'</button>';
+  if(t.downloadLabel2){
+    s+='<button onclick="'+t.downloadFn2+'()" style="background:transparent;border:1px solid var(--border);color:var(--gray);padding:10px 20px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:\'Switzer\',sans-serif;transition:all .2s ease;" onmouseover="this.style.background=\'var(--warm)\'" onmouseout="this.style.background=\'transparent\'">&#8595; '+t.downloadLabel2+'</button>';
+  }
+  s+='</div>';
+  return s;
+}
+
+function renderAIAssets(bp){
+  const el=document.getElementById('aiToolsContent');
+  const name=state.answers.userName||'You';
+
+  const skillTool={
+      icon:'🧠',
+      color:'#4DB8B8',
+      name:'Claude Skills File',
+      desc:'Install your brand voice as a permanent Claude Skill',
+      useLabel:'How to install your Brand Voice Skill in Claude',
+      howTo:`<strong>Recommended: Upload the .skill file.</strong> Download it from the download zone below. In Claude.ai, go to your profile icon &rarr; <strong>Settings &rarr; Capabilities &rarr; Skills &rarr; Add Skill</strong> and upload the .skill file. Once installed, Claude applies your brand voice automatically to any writing request across all conversations.<br><br><strong>Alternative: Upload the .md file to Project Knowledge.</strong> In any Claude Project, go to "Project Knowledge" &rarr; "Add content" and upload the .md file. Claude will reference it in every conversation in that Project.<br><br>The code block below is a preview of your skill content.`,
+      code:bp.claudeSkillBlock||''
+    };
+  const tools=[
+    skillTool,
+    {
+      icon:'🤖',
+      color:'#7C3AED',
+      name:'Claude Projects',
+      desc:'Load your identity into any Claude Project',
+      useLabel:'Best way to use this',
+      howTo:`<strong>Recommended: Upload the file.</strong> Download your AI Context File (.txt) from the download zone below. In Claude.ai, open a Project, go to "Project Knowledge," and upload it directly. Claude reads the file in full every session, no truncation, no copy/paste errors.<br><br><strong>Alternative: Paste the block below.</strong> Go to your Project, click "Project Instructions" or "Edit Instructions," and paste. Use this if you prefer a quick setup without a file upload.`,
+      code:bp.claudeProjectInstructions||''
+    },
+    {
+      icon:'💬',
+      color:'#10A37F',
+      name:'ChatGPT Custom Instructions',
+      desc:'Train ChatGPT with your identity',
+      useLabel:'How to set this up',
+      howTo:`<strong>1.</strong> Open ChatGPT and click your profile icon. <strong>2.</strong> Go to "Customize ChatGPT" or "Custom Instructions." <strong>3.</strong> Paste the "About Me" block in the first field and the "Response Style" block in the second field. <strong>4.</strong> Save.<br><br><strong>Also recommended:</strong> Upload your AI Context File (.txt) to any ChatGPT conversation or project as an attachment. This gives ChatGPT your full Blueprint, not just the two instruction fields.`,
+      code:`ABOUT ME (paste in field 1):\n${bp.chatGPTCustomInstructions?.aboutMe||''}\n\nRESPONSE STYLE (paste in field 2):\n${bp.chatGPTCustomInstructions?.responseStyle||''}`
+    },
+    {
+      icon:'✦',
+      color:'#8A8680',
+      name:'Universal Context Block',
+      desc:'Works with any AI tool, any session',
+      useLabel:'How to use this',
+      howTo:`<strong>Best use: Upload your AI Context File (.txt)</strong> to any AI tool that accepts file uploads. This drops your full Blueprint into any conversation in seconds.<br><br><strong>No file upload available?</strong> Copy the block below and paste it at the start of any AI conversation before making your request. You can save it as a text snippet or keyboard shortcut on your device for one-tap access anywhere.`,
+      code:bp.activationBlock||''
+    }
+  ];
+
+  el.innerHTML=tools.map((t,i)=>`
+    <div class="tool-card">
+      <div class="tool-card-header" onclick="toggleTool(${i})">
+        <div class="tool-info">
+          <div class="tool-icon" style="background:${t.color}22;color:${t.color};">${t.icon}</div>
+          <div><div class="tool-name">${t.name}</div><div class="tool-desc">${t.desc}</div></div>
+        </div>
+        <div class="tool-toggle" id="toggle-${i}">›</div>
+      </div>
+      <div class="tool-body" id="body-${i}">
+        <div class="tool-use-label">${t.useLabel}</div>
+        <div class="how-to">${t.howTo}</div>
+        <div class="tool-use-label" style="margin-top:24px;">Your formatted block</div>
+        <div class="code-block" id="code-${i}">${escHtml(t.code)}<button class="copy-code-btn" onclick="copyCode(${i},event)">Copy</button></div>
+        ${t.downloadLabel ? renderDownloadBtns(t) : ''}
+      </div>
+    </div>`).join('');
+}
+
+function toggleTool(i){
+  const body=document.getElementById('body-'+i);
+  const tog=document.getElementById('toggle-'+i);
+  const open=body.classList.toggle('open');
+  tog.classList.toggle('open',open);
+  tog.textContent=open?'›':'›';
+  tog.style.transform=open?'rotate(90deg)':'rotate(0deg)';
+}
+
+function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function copyCode(i,e){
+  e.stopPropagation();
+  const el=document.getElementById('code-'+i);
+  const txt=el.textContent.replace(/Copy$/,'').trim();
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=el.querySelector('.copy-code-btn');
+    btn.textContent='Copied.';
+    setTimeout(()=>btn.textContent='Copy',2000);
+  });
+}
+
+/* ─ TABS ─ */
+function openTab(id,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ─ COPY ─ */
+function copyText(id,btn){
+  const txt=document.getElementById(id)?.textContent;
+  if(!txt)return;
+  navigator.clipboard.writeText(txt).then(()=>{
+    btn.textContent='Copied.';
+    setTimeout(()=>btn.textContent='Copy to Clipboard',2200);
+  });
+}
+
+/* ─ DOWNLOADS ─ */
+function getBlueprintText(){
+  const name=state.answers.userName||'Blueprint';
+  const brand=document.getElementById('brandGuideContent')?.innerText||'';
+  return {name,brand};
+}
+
+function downloadPDF(){
+  const bp=state.bp||{};
+  const name=state.answers.userName||'Blueprint';
+  const biz=state.answers.bizName?` · ${state.answers.bizName}`:'';
+  const palette=(bp.visualIdentity?.palette||[]).map(c=>`<span style="display:inline-flex;align-items:center;gap:6px;margin-right:14px;font-size:12px;"><span style="display:inline-block;width:14px;height:14px;background:${c.hex};border:1px solid #ddd;vertical-align:middle;"></span>${c.hex} &nbsp;${c.name}</span>`).join('');
+  const values=(bp.coreValues||[]).map(v=>`<div style="margin-bottom:12px;"><strong style="font-family:\'DM Serif Display\',serif;">${v.name}</strong><br><span style="color:#555;font-size:13px;">${v.meaning}</span></div>`).join('');
+  const pillars=(bp.messagingPillars||[]).map((p,i)=>`<div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;"><span style="font-family:\'DM Serif Display\',serif;font-size:22px;color:#4DB8B8;min-width:28px;">${i+1}</span><div><strong>${p.pillar}</strong><br><span style="color:#555;font-size:13px;">${p.description}</span></div></div>`).join('');
+  const phrases=(bp.signaturePhrases||[]).map(p=>`<span style="background:#f0fafa;border:1px solid #4DB8B8;color:#1A1A1A;padding:4px 10px;font-size:12px;margin:3px;display:inline-block;">${p}</span>`).join('');
+  const avoids=(bp.languageToAvoid||[]).map(p=>`<span style="background:#fdf0f0;border:1px solid #daa;color:#a33;padding:4px 10px;font-size:12px;margin:3px;display:inline-block;">${p}</span>`).join('');
+  const personality=(bp.brandPersonality||[]).map(p=>`<span style="background:#f0fafa;border:1px solid #4DB8B8;color:#1A1A1A;padding:4px 10px;font-size:12px;margin:3px;display:inline-block;">${p}</span>`).join('');
+
+  const html=`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/switzer" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Switzer',sans-serif;background:#FEFCF9;color:#1A1A1A;font-size:14px;line-height:1.75;padding:0;}
+    .cover{background:#1A1A1A;color:#FEFCF9;padding:64px 56px;page-break-after:always;}
+    .cover-eye{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#4DB8B8;margin-bottom:20px;}
+    .cover-title{font-family:'DM Serif Display',serif;font-size:56px;font-weight:300;line-height:1.05;margin-bottom:8px;}
+    .cover-title em{font-style:italic;color:#4DB8B8;}
+    .cover-name{font-family:'DM Serif Display',serif;font-size:22px;color:rgba(254,252,249,.5);font-style:italic;margin-bottom:40px;}
+    .cover-oneliner{font-family:'DM Serif Display',serif;font-size:18px;font-style:italic;color:rgba(254,252,249,.7);border-left:3px solid #4DB8B8;padding:16px 20px;max-width:540px;line-height:1.5;}
+    .cover-footer{margin-top:48px;font-size:11px;color:rgba(254,252,249,.3);letter-spacing:.06em;}
+    .page{padding:56px;}
+    .section{margin-bottom:44px;page-break-inside:avoid;}
+    .sec-hd{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #e0ddd8;}
+    .sec-num{font-family:'DM Serif Display',serif;font-size:13px;color:#4DB8B8;font-style:italic;min-width:24px;}
+    .sec-title{font-family:'DM Serif Display',serif;font-size:20px;}
+    .sec-sub{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8A8680;margin-left:auto;}
+    p{margin-bottom:12px;}
+    @media print{
+      body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+      .cover{background:#1A1A1A!important;color:#FEFCF9!important;}
+    }
+  </style></head><body>
+  <div class="cover">
+    <div class="cover-eye">Dr. Johnna Consulting, LLC</div>
+    <h1 class="cover-title">AI Identity<br><em>Blueprint</em></h1>
+    <div class="cover-name">${name}${biz}</div>
+    ${bp.brandVoiceOneLiner?`<div class="cover-oneliner">"${bp.brandVoiceOneLiner}"</div>`:''}
+    <div class="cover-footer">doctorjohnna.com &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; Generated for personal use</div>
+  </div>
+  <div class="page">
+    <div class="section"><div class="sec-hd"><div class="sec-num">01</div><div class="sec-title">Mission &amp; Purpose</div><div class="sec-sub">Why You Exist</div></div><p>${bp.missionPurpose||''}</p>${bp.visionStatement?`<p style="font-family:'DM Serif Display',serif;font-size:17px;font-style:italic;color:#666;">${bp.visionStatement}</p>`:''}</div>
+    <div class="section"><div class="sec-hd"><div class="sec-num">02</div><div class="sec-title">Who You Serve</div><div class="sec-sub">Target Audience</div></div><p>${bp.targetAudience||''}</p></div>
+    <div class="section"><div class="sec-hd"><div class="sec-num">03</div><div class="sec-title">Brand Positioning &amp; USP</div><div class="sec-sub">What Makes You Different</div></div><p>${bp.brandPositioning||''}</p>${bp.uniqueSellingProposition?`<div style="background:#f0fafa;border-left:3px solid #4DB8B8;padding:14px 18px;margin-top:12px;"><div style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#4DB8B8;margin-bottom:6px;">Your Unique Value</div><div style="font-family:'DM Serif Display',serif;font-size:18px;font-style:italic;">${bp.uniqueSellingProposition}</div></div>`:''}</div>
+    <div class="section"><div class="sec-hd"><div class="sec-num">04</div><div class="sec-title">Brand Personality</div><div class="sec-sub">How You Show Up</div></div><div>${personality}</div></div>
+    <div class="section"><div class="sec-hd"><div class="sec-num">05</div><div class="sec-title">Core Values</div><div class="sec-sub">What You Stand For</div></div>${values}</div>
+    <div class="section"><div class="sec-hd"><div class="sec-num">06</div><div class="sec-title">How You Think</div><div class="sec-sub">Cognitive Layer</div></div><p>${bp.cognitiveLayer||''}</p></div>
+    <div class="section"><div class="sec-hd"><div class="sec-num">07</div><div class="sec-title">How You Feel</div><div class="sec-sub">Emotional Layer</div></div><p>${bp.emotionalLayer||''}</p></div>
+    <div class="section"><div class="sec-hd"><div class="sec-num">08</div><div class="sec-title">How You Communicate</div><div class="sec-sub">Expression Layer</div></div><p>${bp.expressionLayer||''}</p><div style="margin-top:14px;">${phrases}</div><div style="margin-top:12px;"><div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8A8680;margin-bottom:8px;">Language to Avoid</div>${avoids}</div></div>
+    <div class="section"><div class="sec-hd"><div class="sec-num">09</div><div class="sec-title">Brand Story</div><div class="sec-sub">Your Origin Thread</div></div><p style="font-family:'DM Serif Display',serif;font-size:18px;font-style:italic;line-height:1.65;">${bp.brandStory||''}</p></div>
+    <div class="section"><div class="sec-hd"><div class="sec-num">10</div><div class="sec-title">Messaging Pillars</div></div>${pillars}</div>
+    <div class="section"><div class="sec-hd"><div class="sec-num">11</div><div class="sec-title">Visual Identity</div></div><p>${bp.visualIdentity?.direction||''}</p><div style="margin-top:12px;">${palette}</div><p style="margin-top:12px;font-size:13px;color:#666;">${bp.visualIdentity?.typography?.heading||''} (headings) · ${bp.visualIdentity?.typography?.body||''} (body) &nbsp;·&nbsp; ${bp.visualIdentity?.typography?.reasoning||''}</p></div>
+    <div style="margin-top:48px;padding-top:20px;border-top:1px solid #e0ddd8;text-align:center;font-size:11px;color:#aaa;letter-spacing:.06em;">Generated by AI Identity Blueprint · Dr. Johnna Consulting, LLC · doctorjohnna.com<br>Your identity evolves. Return to update your Blueprint as your business grows.</div>
+  </div>
+  <script>window.onload=function(){window.print();window.onafterprint=function(){window.close();};};<\/script>
+  </body></html>`;
+
+  const win=window.open('','_blank');
+  if(win){win.document.write(html);win.document.close();}
+}
+
+function getSkillText(){
+  // Always read from state.bp, never from DOM elements (indices shift)
+  return state.bp?.claudeSkillBlock||'';
+}
+
+function downloadAIContext(){
+  // .txt = same brand identity content as .md, plain text for universal AI use
+  const skill=getSkillText();
+  const blob=new Blob([skill],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='Brand-Identity-Guide.txt';
+  a.click();
+}
+
+function downloadAITrainingAssets(){
+  const bp=state.bp||{};
+  const name=state.answers.userName||'You';
+  const sep='='.repeat(60);
+  const aboutMe=bp.chatGPTCustomInstructions?.aboutMe||'';
+  const responseStyle=bp.chatGPTCustomInstructions?.responseStyle||'';
+  const c=`AI IDENTITY BLUEPRINT — AI TRAINING ASSETS
+Dr. Johnna Consulting, LLC · doctorjohnna.com
+Generated for: ${name}
+
+Upload this file to any AI platform, or copy individual sections into your AI tool of choice.
+
+${sep}
+MASTER ACTIVATION BLOCK
+Works with any AI tool. Paste at the start of any conversation.
+${sep}
+
+${bp.activationBlock||''}
+
+${sep}
+CLAUDE PROJECTS — CUSTOM INSTRUCTIONS
+Paste into: Claude.ai > Projects > Project Instructions
+${sep}
+
+${bp.claudeProjectInstructions||''}
+
+${sep}
+CHATGPT — CUSTOM INSTRUCTIONS (two fields)
+${sep}
+
+ABOUT ME (paste in field 1):
+${aboutMe}
+
+RESPONSE STYLE (paste in field 2):
+${responseStyle}
+
+${sep}
+UNIVERSAL CONTEXT BLOCK
+Paste at the start of any AI conversation when you cannot upload a file.
+${sep}
+
+${bp.activationBlock||''}
+
+---
+Generated by AI Identity Blueprint · Dr. Johnna Consulting, LLC
+Your identity evolves. Return to update your Blueprint as your business grows.`;
+  const blob=new Blob([c],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='AI-Training-Assets.txt';
+  a.click();
+}
+
+async function downloadSkillFile(){
+  const name=state.answers.userName||'Blueprint';
+  const skill=getSkillText();
+  const folderName=name.replace(/\s+/g,'-')+'-Brand-Voice';
+  const zip=new JSZip();
+  zip.folder(folderName).file('SKILL.md', skill);
+  const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='Brand-Identity-Guide.skill';
+  a.click();
+}
+
+function downloadSkillMd(){
+  const skill=getSkillText();
+  const blob=new Blob([skill],{type:'text/markdown'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='Brand-Identity-Guide.md';
+  a.click();
+}
+
+function downloadTXT(){downloadAIContext();}
+
+/* ─ PRINT ─ */
+const ps=document.createElement('style');
+ps.textContent='@media print {'
+  +'#topBar,.section-nav,.tab-nav,.dl-zone,.sec-nav-row,'
+  +'.btn-main,.btn-ghost,.copy-code-btn,.act-copy,'
+  +'#tab-ai,#tab-activation,.tab-btn{display:none!important;}'
+  +'body>div.screen:not(#s-output){display:none!important;}'
+  +'#s-output{display:flex!important;min-height:unset;}'
+  +'.out-header{background:#1A1A1A!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:40px!important;}'
+  +'#tab-brand{display:block!important;padding:40px!important;}'
+  +'.tab-content:not(#tab-brand){display:none!important;}'
+  +'.bp-section{break-inside:avoid;}'
+  +'.chip-swatch{-webkit-print-color-adjust:exact;print-color-adjust:exact;}'
+  +'}';
+document.head.appendChild(ps);
+</script>
+</body>
+</html>
