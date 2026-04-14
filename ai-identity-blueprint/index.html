@@ -499,6 +499,14 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <textarea id="q10" placeholder="The moment I know my work landed is when..." rows="4"></textarea>
     </div>
 
+    <!-- Personality assessments (optional) -->
+    <div class="exp-block" style="border:1px solid var(--border);padding:24px 28px;background:var(--warm);">
+      <div class="exp-label">Optional · But worth including if you have them</div>
+      <div class="exp-question">Have you completed any personality or psychological assessments?</div>
+      <div class="exp-hint">Share any results you have — Myers-Briggs, Enneagram, Grit Score, Attachment Style, Human Design, Strengths, DISC, or anything else. Your Blueprint will incorporate these layers into your identity profile. Leave blank if you don't have them.</div>
+      <textarea id="assessments" placeholder="e.g. INFP, Enneagram 4w5, high grit score, secure attachment, Manifesting Generator..." rows="4" style="min-height:90px;"></textarea>
+    </div>
+
     <div class="sec-nav-row">
       <button class="btn-back-sec" onclick="goBack('s-think')">← Back</button>
       <div class="sec-progress-text">Section 2 of 4</div>
@@ -573,6 +581,14 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
         </div>
       </div>
       <textarea id="q13c" placeholder="Why this contrast matters to me..." rows="3" style="min-height:70px;margin-top:8px;"></textarea>
+    </div>
+
+    <!-- Writing samples (optional) -->
+    <div class="exp-block" style="border:1px solid var(--border);padding:24px 28px;background:var(--warm);">
+      <div class="exp-label">Optional · But this is where the magic happens</div>
+      <div class="exp-question">Paste a short sample of your writing.</div>
+      <div class="exp-hint">A paragraph from a blog post, an email you sent, a social media caption — anything that sounds like you at your most natural. One sample is enough. Keep it to 150-200 words. This lets the Blueprint analyze your actual voice, not just what you say about it.</div>
+      <textarea id="writingSample" placeholder="Paste a short piece of your writing here..." rows="6" style="min-height:130px;"></textarea>
     </div>
 
     <!-- Business basics -->
@@ -994,8 +1010,8 @@ function syncPicker(hid,pid){const v=document.getElementById(hid).value;if(/^#[0
 function collectSection(n){
   const fields={
     1:['q1','q2','q3a','q3b','q4','q5','q6'],
-    2:['val1name','val1mean','val2name','val2mean','val3name','val3mean','q7','q8a','q8b','q9','q10'],
-    3:['q11','q12','q13a','q13b','q13c','userName','bizName','industry']
+    2:['val1name','val1mean','val2name','val2mean','val3name','val3mean','q7','q8a','q8b','q9','q10','assessments'],
+    3:['q11','q12','q13a','q13b','q13c','userName','bizName','industry','writingSample']
   };
   (fields[n]||[]).forEach(id=>{const el=document.getElementById(id);if(el)state.answers[id]=el.value.trim();});
 }
@@ -1021,7 +1037,16 @@ function collectAll(){
 /* ─ GENERATE ─ */
 async function generateAll(){
   collectAll();
-  if(!state.answers.userName){alert('Please enter your name in Section 3 before generating.');return;}
+  const missing=[];
+  if(!state.answers.userName) missing.push('Your name (Section 3)');
+  if(!state.answers.industry) missing.push('Your industry or field (Section 3)');
+  if(!state.answers.q1) missing.push('Your contrarian belief (Section 1, question 1)');
+  if(!state.answers.q5) missing.push('Who you serve (Section 1, question 5)');
+  if(!state.answers.val1name) missing.push('At least one core value (Section 2)');
+  if(missing.length){
+    alert('A few things need your attention before we can generate your Blueprint:\n\n• '+missing.join('\n• ')+'\n\nThese help Claude understand who you are at a level that produces a real result, not a generic one.');
+    return;
+  }
   goScreen('s-gen');
   const steps=['gs1','gs2','gs3','gs4','gs5','gs6','gs7'];
   steps.forEach((s,i)=>{
@@ -1067,6 +1092,10 @@ PSYCHOLOGY FRAMEWORKS IN USE:
 - Strengths-Based Psychology: amplify what's working. Never frame from gaps.
 
 WRITING STYLE: Warm, precise, psychologically grounded. No hype. No hustle language. No em dashes (use colons or periods instead). Natural contractions. Short punchy sentences mixed with longer ones.
+
+PERSONALITY ASSESSMENTS: If the user provided assessment results (Myers-Briggs, Enneagram, Grit Score, Attachment Style, Human Design, Strengths, DISC, or others), weave these meaningfully into the cognitiveLayer, emotionalLayer, brandPersonality, and activationBlock. Do not simply list the results. Interpret what they reveal about how this person thinks, feels, and operates — and let that deepen the specificity of every section.
+
+WRITING SAMPLE: If the user provided a writing sample, analyze it carefully. Extract actual patterns: sentence rhythm, word choices, what they naturally gravitate toward, what they avoid, how they open, how they close, the feeling they leave. Use this analysis to make the expressionLayer, signaturePhrases, and claudeSkillBlock genuinely reflect how they already write — not just what they said about how they write. This is the most important signal for voice accuracy.
 
 CRITICAL TYPOGRAPHY RULE: If the user provided specific font names in their visual identity answers (Path A), you MUST use exactly those fonts in typography.heading and typography.body. Do not substitute or suggest alternatives. Only generate font suggestions if Path B was selected and no fonts were provided.
 
@@ -1143,6 +1172,7 @@ In alignment: ${a.q8a}
 Out of alignment: ${a.q8b}
 Will never do: ${a.q9}
 When work lands right: ${a.q10}
+Personality & assessment results: ${a.assessments||'not provided'}
 
 === LAYER 3: HOW THEY COMMUNICATE ===
 Origin story: ${a.q11}
@@ -1152,6 +1182,7 @@ Language they refuse: ${chips.bad.join(', ')||'not provided'}
 Want people to feel: ${a.q13a}
 Not: ${a.q13b}
 Why that matters: ${a.q13c}
+Writing sample (actual voice): ${a.writingSample||'not provided'}
 
 === LAYER 4: HOW THEY LOOK ===
 ${vis}
