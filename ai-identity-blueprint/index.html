@@ -362,6 +362,12 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <div><div class="stat-num">5</div><div class="stat-lbl">AI-Ready Assets</div></div>
     </div>
 
+    <div id="resumeNotice" style="display:none;margin-bottom:24px;">
+      <div style="display:inline-block;background:rgba(77,184,184,0.12);border:1px solid rgba(77,184,184,0.3);padding:10px 18px;font-size:11px;color:rgba(254,252,249,0.85);letter-spacing:.04em;">
+        Resuming where you left off. &nbsp;<a href="javascript:void(0)" onclick="discardDraftAndReload()" style="color:var(--teal);text-decoration:none;border-bottom:1px solid var(--teal);">Start fresh</a>
+      </div>
+    </div>
+
     <button class="btn-main" onclick="startJourney()">Begin Your Blueprint</button>
     <p class="w-byline">© 2026 Dr. Johnna Consulting, LLC &nbsp;·&nbsp; <a href="https://doctorjohnna.com" target="_blank" rel="noopener">doctorjohnna.com</a></p>
   </div>
@@ -1023,10 +1029,12 @@ function addChip(e,inputId,containerId,type){
   chip.innerHTML=val+' <span class="chip-x" onclick="removeChip(this,\''+type+'\',\''+val+'\')">×</span>';
   document.getElementById(containerId).insertBefore(chip,inp);
   inp.value='';
+  saveDraft();
 }
 function removeChip(el,type,val){
   state.chips[type]=state.chips[type].filter(v=>v!==val);
   el.parentElement.remove();
+  saveDraft();
 }
 
 /* ─ PATH & MOOD ─ */
@@ -1036,10 +1044,12 @@ function selectPath(p){
   document.getElementById('pathBcard').classList.toggle('sel',p==='B');
   document.getElementById('pathA-fields').style.display=p==='A'?'block':'none';
   document.getElementById('pathB-fields').style.display=p==='B'?'block':'none';
+  saveDraft();
 }
 function selectMood(el,name){
   document.querySelectorAll('.mood-card').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');state.mood=name;
+  saveDraft();
 }
 
 /* ─ COLOR SYNC ─ */
@@ -1553,6 +1563,7 @@ function buildPDFHtml(){
 }
 
 function downloadPDF(){
+  state.hasDownloaded=true;
   const html=buildPDFHtml();
   const win=window.open('','_blank');
   if(win){win.document.write(html);win.document.close();}
@@ -1564,6 +1575,7 @@ function getSkillText(){
 }
 
 function downloadAIContext(){
+  state.hasDownloaded=true;
   // .txt = same brand identity content as .md, plain text for universal AI use
   const skill=getSkillText();
   const blob=new Blob([skill],{type:'text/plain'});
@@ -1574,6 +1586,7 @@ function downloadAIContext(){
 }
 
 function downloadAITrainingAssets(){
+  state.hasDownloaded=true;
   const bp=state.bp||{};
   const name=state.answers.userName||'You';
   const sep='='.repeat(60);
@@ -1620,6 +1633,7 @@ Your identity evolves. Return to update your Blueprint as your business grows.`;
 }
 
 async function downloadSkillFile(){
+  state.hasDownloaded=true;
   const name=state.answers.userName||'Blueprint';
   const skill=getSkillText();
   const folderName=name.replace(/\s+/g,'-')+'-Brand-Voice';
@@ -1633,6 +1647,7 @@ async function downloadSkillFile(){
 }
 
 function downloadSkillMd(){
+  state.hasDownloaded=true;
   const skill=getSkillText();
   const blob=new Blob([skill],{type:'text/markdown'});
   const a=document.createElement('a');
@@ -1644,6 +1659,7 @@ function downloadSkillMd(){
 function downloadTXT(){downloadAIContext();}
 
 async function downloadAllZip(){
+  state.hasDownloaded=true;
   const btn=document.querySelector('.top-dl-primary');
   const orig=btn?btn.textContent:'';
   if(btn){btn.textContent='Preparing your ZIP...';btn.disabled=true;}
@@ -1764,6 +1780,128 @@ ps.textContent='@media print {'
   +'.chip-swatch{-webkit-print-color-adjust:exact;print-color-adjust:exact;}'
   +'}';
 document.head.appendChild(ps);
+
+/* ─ AUTOSAVE ─ */
+const STORAGE_KEY='ai-blueprint-draft-v1';
+const SAVED_FIELDS=[
+  'q1','q2','q3a','q3b','q4','q5','q6',
+  'val1name','val1mean','val2name','val2mean','val3name','val3mean',
+  'q7','q8a','q8b','q9','q10','assessments',
+  'q11','q12','q13a','q13b','q13c',
+  'userName','bizName','industry','writingSample',
+  'hA1','hA2','hA3','fontH','fontB','vWords','wrongColors'
+];
+
+let _saveTimer=null;
+function saveDraft(){
+  clearTimeout(_saveTimer);
+  _saveTimer=setTimeout(()=>{
+    try{
+      const data={fields:{},chips:{good:[...state.chips.good],bad:[...state.chips.bad]},path:state.path,mood:state.mood,savedAt:Date.now()};
+      SAVED_FIELDS.forEach(id=>{const el=document.getElementById(id);if(el)data.fields[id]=el.value;});
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+    }catch(e){console.warn('Autosave failed:',e);}
+  },400);
+}
+
+function loadDraft(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(!raw)return null;
+    const data=JSON.parse(raw);
+    return data && data.fields ? data : null;
+  }catch(e){return null;}
+}
+
+function clearDraft(){
+  try{localStorage.removeItem(STORAGE_KEY);}catch(e){}
+}
+
+function discardDraftAndReload(){
+  if(confirm('Start fresh? Your saved answers will be erased.')){
+    clearDraft();
+    location.reload();
+  }
+}
+
+function rebuildChips(containerId,inputId,type){
+  const container=document.getElementById(containerId);
+  if(!container)return;
+  Array.from(container.querySelectorAll('.chip')).forEach(c=>c.remove());
+  const inp=document.getElementById(inputId);
+  if(!inp)return;
+  state.chips[type].forEach(val=>{
+    const chip=document.createElement('span');
+    chip.className='chip'+(type==='bad'?' bad':'');
+    chip.innerHTML=val+' <span class="chip-x" onclick="removeChip(this,\''+type+'\',\''+val+'\')">×</span>';
+    container.insertBefore(chip,inp);
+  });
+}
+
+function applyDraft(draft){
+  if(!draft||!draft.fields)return;
+  Object.keys(draft.fields).forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.value=draft.fields[id]||'';
+  });
+  // Sync color pickers from hex inputs
+  ['hA1','hA2','hA3'].forEach(hid=>{
+    const cid=hid.replace('h','c');
+    const hex=document.getElementById(hid);
+    const picker=document.getElementById(cid);
+    if(hex && picker && /^#[0-9A-Fa-f]{6}$/.test(hex.value))picker.value=hex.value;
+  });
+  if(draft.chips){
+    state.chips.good=draft.chips.good||[];
+    state.chips.bad=draft.chips.bad||[];
+    rebuildChips('goodChips','goodInput','good');
+    rebuildChips('badChips','badInput','bad');
+  }
+  if(draft.path){
+    state.path=draft.path;
+    document.getElementById('pathAcard')?.classList.toggle('sel',draft.path==='A');
+    document.getElementById('pathBcard')?.classList.toggle('sel',draft.path==='B');
+    const pa=document.getElementById('pathA-fields');
+    const pb=document.getElementById('pathB-fields');
+    if(pa)pa.style.display=draft.path==='A'?'block':'none';
+    if(pb)pb.style.display=draft.path==='B'?'block':'none';
+  }
+  if(draft.mood){
+    state.mood=draft.mood;
+    document.querySelectorAll('.mood-card').forEach(c=>{
+      const nm=c.querySelector('.mood-name');
+      if(nm && nm.textContent===draft.mood)c.classList.add('sel');
+    });
+  }
+}
+
+function initAutosave(){
+  // Attach input listeners to all tracked fields
+  SAVED_FIELDS.concat(['cA1','cA2','cA3']).forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.addEventListener('input',saveDraft);
+  });
+  // Apply existing draft if found
+  const draft=loadDraft();
+  if(draft){
+    applyDraft(draft);
+    const notice=document.getElementById('resumeNotice');
+    if(notice)notice.style.display='block';
+  }
+}
+initAutosave();
+
+/* ─ PRE-LEAVE NUDGE ─ */
+window.addEventListener('beforeunload',function(e){
+  if(state.bp && !state.hasDownloaded){
+    e.preventDefault();
+    e.returnValue='Your Brand Voice Guide has not been downloaded yet. Are you sure you want to leave?';
+    return e.returnValue;
+  }
+});
 </script>
+
+<!-- Vercel Web Analytics -->
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
