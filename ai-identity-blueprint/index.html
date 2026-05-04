@@ -315,6 +315,11 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
   .upsell{padding:24px;}
 }
 </style>
+<!-- PostHog Product Analytics -->
+<script>
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  posthog.init('phc_obtKevrQYVzThjTSwjZQPFavvP9WRJyyRXWpYnDw99EN',{api_host:'https://us.i.posthog.com'});
+</script>
 </head>
 <body>
 
@@ -1010,7 +1015,14 @@ function goScreen(id){
   window.scrollTo(0,0);
 }
 
-function startJourney(){goScreen('s-think');}
+function startJourney(){
+  trackEvent('questionnaire_started');
+  goScreen('s-think');
+}
+
+function trackEvent(name,props){
+  try{if(window.posthog && typeof posthog.capture==='function')posthog.capture(name,props||{});}catch(e){}
+}
 function goBack(id){goScreen(id);}
 
 function goSection(id,navId,num){
@@ -1099,6 +1111,7 @@ async function generateAll(){
     alert('A few things need your attention before we can generate your Blueprint:\n\n• '+missing.join('\n• ')+'\n\nThese help Claude understand who you are at a level that produces a real result, not a generic one.');
     return;
   }
+  trackEvent('questionnaire_completed');
   goScreen('s-gen');
   const steps=['gs1','gs2','gs3','gs4','gs5','gs6','gs7'];
   steps.forEach((s,i)=>{
@@ -1566,6 +1579,7 @@ function buildPDFHtml(){
 
 function downloadPDF(){
   state.hasDownloaded=true;
+  trackEvent('guide_downloaded',{format:'pdf'});
   const html=buildPDFHtml();
   const win=window.open('','_blank');
   if(win){win.document.write(html);win.document.close();}
@@ -1578,6 +1592,7 @@ function getSkillText(){
 
 function downloadAIContext(){
   state.hasDownloaded=true;
+  trackEvent('guide_downloaded',{format:'txt'});
   // .txt = same brand identity content as .md, plain text for universal AI use
   const skill=getSkillText();
   const blob=new Blob([skill],{type:'text/plain'});
@@ -1589,6 +1604,7 @@ function downloadAIContext(){
 
 function downloadAITrainingAssets(){
   state.hasDownloaded=true;
+  trackEvent('guide_downloaded',{format:'ai-training-assets-txt'});
   const bp=state.bp||{};
   const name=state.answers.userName||'You';
   const sep='='.repeat(60);
@@ -1636,6 +1652,7 @@ Your identity evolves. Return to update your Blueprint as your business grows.`;
 
 async function downloadSkillFile(){
   state.hasDownloaded=true;
+  trackEvent('guide_downloaded',{format:'skill'});
   const name=state.answers.userName||'Blueprint';
   const skill=getSkillText();
   const folderName=name.replace(/\s+/g,'-')+'-Brand-Voice';
@@ -1650,6 +1667,7 @@ async function downloadSkillFile(){
 
 function downloadSkillMd(){
   state.hasDownloaded=true;
+  trackEvent('guide_downloaded',{format:'md'});
   const skill=getSkillText();
   const blob=new Blob([skill],{type:'text/markdown'});
   const a=document.createElement('a');
@@ -1662,6 +1680,7 @@ function downloadTXT(){downloadAIContext();}
 
 async function downloadAllZip(){
   state.hasDownloaded=true;
+  trackEvent('guide_downloaded',{format:'zip-all'});
   const btn=document.querySelector('.top-dl-primary');
   const orig=btn?btn.textContent:'';
   if(btn){btn.textContent='Preparing your ZIP...';btn.disabled=true;}
