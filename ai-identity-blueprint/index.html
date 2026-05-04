@@ -1818,7 +1818,7 @@ function clearDraft(){
 }
 
 function discardDraftAndReload(){
-  if(confirm('Start fresh? Your saved answers will be erased.')){
+  if(confirm('Start fresh? Your saved answers will be erased.\n\nTo resume where you left off instead, click Cancel and then click "Begin Your Blueprint".')){
     clearDraft();
     location.reload();
   }
