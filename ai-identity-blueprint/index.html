@@ -104,7 +104,8 @@ textarea::placeholder{color:rgba(26,26,26,.28);}
 .chip.bad{background:var(--red-soft);border-color:rgba(180,60,60,.2);color:var(--red-text);}
 .chip-x{cursor:pointer;opacity:.5;font-size:14px;line-height:1;}
 .chip-x:hover{opacity:1;}
-.chip-input{border:none;outline:none;font-family:'Switzer',sans-serif;font-size:13px;background:transparent;min-width:140px;color:var(--dark);padding:4px 0;}
+.chip-input{border:none;outline:none;font-family:'Switzer',sans-serif;font-size:13px;background:transparent;min-width:140px;flex:1;color:var(--dark);padding:4px 0;}
+.chip-input::placeholder{color:rgba(26,26,26,.28);}
 
 /* sentence builder */
 .sentence-row{display:grid;grid-template-columns:1fr 20px 1fr;gap:12px;align-items:center;margin-bottom:12px;}
@@ -187,11 +188,13 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
 .out-name{font-family:'DM Serif Display',serif;font-size:20px;color:rgba(254,252,249,.5);font-style:italic;}
 
 /* top download bar (visible from all results tabs) */
-.top-dl-bar{background:var(--warm);border-bottom:1px solid var(--border);padding:24px 40px;text-align:center;}
+.top-dl-bar{background:var(--warm);border-bottom:1px solid var(--border);padding:28px 40px;text-align:center;}
 .top-dl-inner{max-width:820px;margin:0 auto;}
 .top-dl-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;font-weight:500;}
-.top-dl-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
-.top-dl-btns .btn-dl,.top-dl-btns .btn-dl-out{padding:12px 22px;font-size:11px;}
+.top-dl-primary{padding:14px 32px;font-size:12px;margin-bottom:16px;}
+.top-dl-or{font-size:11px;color:var(--gray);margin-bottom:12px;letter-spacing:.04em;font-style:italic;}
+.top-dl-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.top-dl-btns .btn-dl-out{padding:10px 18px;font-size:11px;}
 
 /* results page footer */
 .results-footer{background:var(--dark);color:rgba(254,252,249,.4);text-align:center;padding:28px 40px;font-size:11px;letter-spacing:.05em;}
@@ -405,12 +408,12 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <div class="sentence-row">
         <div>
           <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Most people in my space...</div>
-          <textarea id="q3a" placeholder="teach tactics before identity..." rows="3" style="min-height:80px;"></textarea>
+          <textarea id="q3a" placeholder="What's the common approach you see..." rows="3" style="min-height:80px;"></textarea>
         </div>
         <div class="sentence-connector">↔</div>
         <div>
           <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">I believe...</div>
-          <textarea id="q3b" placeholder="identity has to come first. Always." rows="3" style="min-height:80px;"></textarea>
+          <textarea id="q3b" placeholder="What you do differently..." rows="3" style="min-height:80px;"></textarea>
         </div>
       </div>
     </div>
@@ -486,7 +489,7 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
     <!-- First impression feeling -->
     <div class="exp-block">      <div class="exp-question">What do you want someone to feel in the first 30 seconds of encountering your brand? Not think. Feel.</div>
       <div class="exp-hint">Think about emotional atmosphere before a single word is read.</div>
-      <textarea id="q7" placeholder="Seen. Calm. Curious. Challenged. Use your own words..." rows="3" style="min-height:80px;"></textarea>
+      <textarea id="q7" placeholder="Use your own words..." rows="3" style="min-height:80px;"></textarea>
     </div>
 
     <!-- Alignment vs misalignment scale -->
@@ -494,11 +497,11 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <div class="exp-hint">This contrast is important. Don't rush it.</div>
       <div style="margin-bottom:16px;">
         <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">In alignment, I feel...</div>
-        <textarea id="q8a" placeholder="Energized, clear, like time disappears..." rows="3" style="min-height:70px;"></textarea>
+        <textarea id="q8a" placeholder="Describe the feeling..." rows="3" style="min-height:70px;"></textarea>
       </div>
       <div>
         <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Out of alignment, I feel...</div>
-        <textarea id="q8b" placeholder="Drained, performing, disconnected from the work..." rows="3" style="min-height:70px;"></textarea>
+        <textarea id="q8b" placeholder="Describe the feeling..." rows="3" style="min-height:70px;"></textarea>
       </div>
     </div>
 
@@ -519,7 +522,7 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <div class="exp-label">Optional · But worth including if you have them</div>
       <div class="exp-question">Have you completed any personality or psychological assessments?</div>
       <div class="exp-hint">Include the assessment name and your specific result for each one. The more precise you are, the more your Blueprint will reflect how you're actually wired, not a generic version of the type. For example: "MBTI: INFP. Enneagram: 4w5. Grit: high (top 10%). Human Design: Manifesting Generator. Attachment: secure. DISC: I/C. Strengths: Activator, Learner, Achiever." One line per assessment is enough. Leave blank if you don't have them.</div>
-      <textarea id="assessments" placeholder="e.g. MBTI: INFP · Enneagram: 4w5 · Grit: high · Human Design: Manifesting Generator · Attachment: secure · DISC: I/C · Strengths: Activator, Learner, Achiever" rows="4" style="min-height:90px;"></textarea>
+      <textarea id="assessments" placeholder="e.g. MBTI: ESTJ · Enneagram: 3w2 · Strengths: Achiever, Communication, Focus" rows="4" style="min-height:90px;"></textarea>
     </div>
 
     <div class="sec-nav-row">
@@ -587,12 +590,12 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <div class="sentence-row" style="margin-bottom:12px;">
         <div>
           <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">I want them to feel...</div>
-          <input type="text" class="text-inp" id="q13a" placeholder="Seen. Clear. Hopeful...">
+          <input type="text" class="text-inp" id="q13a" placeholder="Use your own words...">
         </div>
         <div class="sentence-connector">not</div>
         <div>
           <div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Not...</div>
-          <input type="text" class="text-inp" id="q13b" placeholder="Pressured. Shamed. Generic...">
+          <input type="text" class="text-inp" id="q13b" placeholder="Use your own words...">
         </div>
       </div>
       <textarea id="q13c" placeholder="Why this contrast matters to me..." rows="3" style="min-height:70px;margin-top:8px;"></textarea>
@@ -767,7 +770,8 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
           </div>
         </div>
       </div>
-      <div class="exp-block">        <div class="exp-hint">Optional but helpful. Knowing what you're not is often clearer than knowing what you are.</div>
+      <div class="exp-block">        <div class="exp-question">What visual styles or colors feel wrong for your brand?</div>
+        <div class="exp-hint">Optional but helpful. Knowing what you're not is often clearer than knowing what you are.</div>
         <textarea id="wrongColors" placeholder="e.g. anything neon. It feels loud and performative, which is opposite to my energy..." rows="3" style="min-height:70px;"></textarea>
       </div>
     </div>
@@ -814,8 +818,10 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
   <div class="top-dl-bar">
     <div class="top-dl-inner">
       <div class="top-dl-label">Download your Brand Voice Guide</div>
+      <button class="btn-dl top-dl-primary" onclick="downloadAllZip()">↓ Download All (ZIP)</button>
+      <div class="top-dl-or">or download individually</div>
       <div class="top-dl-btns">
-        <button class="btn-dl" onclick="downloadPDF()">↓ .pdf</button>
+        <button class="btn-dl-out" onclick="downloadPDF()">↓ .pdf</button>
         <button class="btn-dl-out" onclick="downloadAIContext()">↓ .txt</button>
         <button class="btn-dl-out" onclick="downloadSkillFile()">↓ .skill</button>
         <button class="btn-dl-out" onclick="downloadSkillMd()">↓ .md</button>
@@ -826,7 +832,7 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
 
   <div class="tab-nav">
     <button class="tab-btn active" onclick="openTab('tab-brand',this)">Brand Guide</button>
-    <button class="tab-btn" onclick="openTab('tab-ai',this)">AI Training Assets</button>
+    <button class="tab-btn" onclick="openTab('tab-ai',this)">Setup Instructions</button>
     <button class="tab-btn" onclick="openTab('tab-activation',this)">Activation Block</button>
   </div>
 
@@ -837,19 +843,6 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
 
   <!-- TAB 2: AI TRAINING ASSETS -->
   <div id="tab-ai" class="tab-content">
-
-    <!-- DOWNLOADS AT TOP -->
-    <div style="max-width:680px;margin-bottom:48px;">
-      <h3 style="font-family:'DM Serif Display',serif;font-size:28px;font-weight:300;margin-bottom:10px;line-height:1.2;">Brand Voice Guide</h3>
-      <p style="font-size:14px;color:var(--gray);margin-bottom:24px;line-height:1.75;">Your Brand Voice Guide, ready for any AI platform. Each file built for a different job. Scroll down to learn exactly how to use them and where each file belongs.</p>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
-        <button class="btn-dl" onclick="downloadPDF()" style="padding:12px 20px;font-size:11px;">↓ Brand Voice Guide (.pdf)</button>
-        <button class="btn-dl-out" onclick="downloadAIContext()" style="padding:12px 20px;font-size:11px;">↓ Brand Voice Guide (.txt)</button>
-        <button class="btn-dl-out" onclick="downloadSkillFile()" style="padding:12px 20px;font-size:11px;">↓ Brand Voice Guide (.skill)</button>
-        <button class="btn-dl-out" onclick="downloadSkillMd()" style="padding:12px 20px;font-size:11px;">↓ Brand Voice Guide (.md)</button>
-        <button class="btn-dl-out" onclick="downloadAITrainingAssets()" style="padding:12px 20px;font-size:11px;">↓ AI Training Assets (.txt)</button>
-      </div>
-    </div>
 
     <!-- FILE TYPE EXPLAINER -->
     <div style="max-width:680px;margin-bottom:48px;">
@@ -972,18 +965,8 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
     </div>
   </div>
 
-  <!-- DOWNLOADS & UPSELL -->
+  <!-- UPSELL -->
   <div class="dl-zone">
-    <h2 class="dl-title">Brand Voice Guide</h2>
-    <p class="dl-sub">Your complete Brand Voice Guide, ready for any AI platform.</p>
-    <div class="dl-btns">
-      <button class="btn-dl" onclick="downloadPDF()">↓ Brand Voice Guide (.pdf)</button>
-      <button class="btn-dl-out" onclick="downloadAIContext()">↓ Brand Voice Guide (.txt)</button>
-      <button class="btn-dl-out" onclick="downloadSkillFile()">↓ Brand Voice Guide (.skill)</button>
-      <button class="btn-dl-out" onclick="downloadSkillMd()">↓ Brand Voice Guide (.md)</button>
-      <button class="btn-dl-out" onclick="downloadAITrainingAssets()">↓ AI Training Assets (.txt)</button>
-    </div>
-
     <div class="upsell">
       <div class="ups-eye">Your next step</div>
       <h3 class="ups-ttl">Your Blueprint is the foundation.<br>Identity Brand Studio is where you build on it.</h3>
@@ -1411,7 +1394,7 @@ function renderAIAssets(bp){
     skillTool,
     {
       icon:'✦',
-      color:'#7C3AED',
+      color:'#4DB8B8',
       name:'Claude Projects',
       desc:'Load your identity into any Claude Project',
       useLabel:'Best way to use this',
@@ -1420,7 +1403,7 @@ function renderAIAssets(bp){
     },
     {
       icon:'✦',
-      color:'#10A37F',
+      color:'#4DB8B8',
       name:'ChatGPT Custom Instructions',
       desc:'Train ChatGPT with your identity',
       useLabel:'How to set this up',
@@ -1429,7 +1412,7 @@ function renderAIAssets(bp){
     },
     {
       icon:'✦',
-      color:'#8A8680',
+      color:'#4DB8B8',
       name:'Universal Context Block',
       desc:'Works with any AI tool, any session',
       useLabel:'How to use this',
@@ -1504,7 +1487,7 @@ function getBlueprintText(){
   return {name,brand};
 }
 
-function downloadPDF(){
+function buildPDFHtml(){
   const bp=state.bp||{};
   const name=state.answers.userName||'Blueprint';
   const biz=state.answers.bizName?` · ${state.answers.bizName}`:'';
@@ -1566,6 +1549,11 @@ function downloadPDF(){
   <script>window.onload=function(){window.print();window.onafterprint=function(){window.close();};};<\/script>
   </body></html>`;
 
+  return html;
+}
+
+function downloadPDF(){
+  const html=buildPDFHtml();
   const win=window.open('','_blank');
   if(win){win.document.write(html);win.document.close();}
 }
@@ -1654,6 +1642,112 @@ function downloadSkillMd(){
 }
 
 function downloadTXT(){downloadAIContext();}
+
+async function downloadAllZip(){
+  const btn=document.querySelector('.top-dl-primary');
+  const orig=btn?btn.textContent:'';
+  if(btn){btn.textContent='Preparing your ZIP...';btn.disabled=true;}
+  try{
+  const bp=state.bp||{};
+  const name=state.answers.userName||'Blueprint';
+  const safeName=name.replace(/\s+/g,'-');
+  const folderLabel=safeName+'-Brand-Voice-Guide';
+  const skill=getSkillText();
+
+  const zip=new JSZip();
+
+  // Brand Voice Guide as plain text and markdown
+  zip.file('Brand-Voice-Guide.txt', skill);
+  zip.file('Brand-Voice-Guide.md', skill);
+
+  // Brand Voice Guide as a Claude Skill (.skill is a zip with SKILL.md inside a folder)
+  const skillZip=new JSZip();
+  skillZip.folder(safeName+'-Brand-Voice').file('SKILL.md', skill);
+  const skillBlob=await skillZip.generateAsync({type:'blob',compression:'DEFLATE'});
+  zip.file('Brand-Voice-Guide.skill', skillBlob);
+
+  // Printable HTML for PDF. User opens this file and prints to PDF from their browser.
+  zip.file('Brand-Voice-Guide-Print.html', buildPDFHtml());
+
+  // AI Training Assets file (same content as the standalone download)
+  const sep='='.repeat(60);
+  const aboutMe=bp.chatGPTCustomInstructions?.aboutMe||'';
+  const responseStyle=bp.chatGPTCustomInstructions?.responseStyle||'';
+  const aiAssets=`AI IDENTITY BLUEPRINT · AI TRAINING ASSETS
+Dr. Johnna Consulting, LLC · doctorjohnna.com
+Generated for: ${name}
+
+Upload this file to any AI platform, or copy individual sections into your AI tool of choice.
+
+${sep}
+MASTER ACTIVATION BLOCK
+Works with any AI tool. Paste at the start of any conversation.
+${sep}
+
+${bp.activationBlock||''}
+
+${sep}
+CLAUDE PROJECTS · CUSTOM INSTRUCTIONS
+Paste into: Claude.ai > Projects > Project Instructions
+${sep}
+
+${bp.claudeProjectInstructions||''}
+
+${sep}
+CHATGPT · CUSTOM INSTRUCTIONS (two fields)
+${sep}
+
+ABOUT ME (paste in field 1):
+${aboutMe}
+
+RESPONSE STYLE (paste in field 2):
+${responseStyle}
+
+---
+Generated by AI Identity Blueprint · Dr. Johnna Consulting, LLC
+Your identity evolves. Return to update your Blueprint as your business grows.`;
+  zip.file('AI-Training-Assets.txt', aiAssets);
+
+  // README so users know what each file is for
+  const readme=`Your Brand Voice Guide
+Dr. Johnna Consulting, LLC · doctorjohnna.com
+Generated for: ${name}
+
+WHAT'S IN THIS FOLDER
+
+Brand-Voice-Guide.txt
+  Plain text. Upload to ChatGPT, Claude, or any AI that accepts file uploads.
+
+Brand-Voice-Guide.md
+  Markdown. Best for Claude Project Knowledge or Claude Memory.
+
+Brand-Voice-Guide.skill
+  Claude Skill file. In Claude.ai go to Settings > Capabilities > Skills > Add Skill and upload this file.
+
+AI-Training-Assets.txt
+  Setup blocks for Claude Projects and ChatGPT Custom Instructions.
+
+Brand-Voice-Guide-Print.html
+  Your printable Brand Voice Guide. To save as PDF:
+  1. Double-click the file. Your browser will open it.
+  2. The print dialog will appear automatically.
+  3. Choose "Save as PDF" as the destination.
+  4. Click Save.
+`;
+  zip.file('README.txt', readme);
+
+  const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=folderLabel+'.zip';
+  a.click();
+  }catch(e){
+    console.error('ZIP build failed:',e);
+    alert('Something went wrong while building your ZIP. Please try again.');
+  }finally{
+    if(btn){btn.textContent=orig;btn.disabled=false;}
+  }
+}
 
 /* ─ PRINT ─ */
 const ps=document.createElement('style');
