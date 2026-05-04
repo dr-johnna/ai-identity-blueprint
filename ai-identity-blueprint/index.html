@@ -45,13 +45,14 @@ body{font-family:'Switzer',sans-serif;background:var(--cream);color:var(--dark);
 .w-tagline{font-family:'DM Serif Display',serif;font-size:clamp(16px,2vw,22px);color:rgba(254,252,249,.5);font-style:italic;margin-bottom:44px;}
 .w-desc{font-size:15px;line-height:1.85;color:rgba(254,252,249,.72);max-width:520px;margin:0 auto 48px;}
 .w-desc strong{color:var(--cream);}
+.w-promise{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(254,252,249,.55);margin-bottom:24px;font-weight:400;}
 .w-stats{display:flex;gap:44px;justify-content:center;margin-bottom:52px;}
 .stat-num{font-family:'DM Serif Display',serif;font-size:36px;font-weight:300;color:var(--teal);line-height:1;}
 .stat-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(254,252,249,.38);margin-top:5px;}
-.w-triangle{display:flex;align-items:center;gap:0;justify-content:center;margin-bottom:52px;}
+.w-triangle{display:flex;align-items:center;gap:0;justify-content:center;margin-bottom:48px;}
 .tri-item{display:flex;flex-direction:column;align-items:center;gap:10px;min-width:100px;}
-.tri-icon{width:44px;height:44px;border:1px solid rgba(77,184,184,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;}
-.tri-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(254,252,249,.4);}
+.tri-icon{width:44px;height:44px;border:1px solid rgba(77,184,184,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--teal);}
+.tri-lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(254,252,249,.6);}
 .tri-arrow{color:rgba(77,184,184,.3);font-size:18px;margin-bottom:22px;padding:0 4px;}
 
 /* ─── BUTTONS ─── */
@@ -60,6 +61,8 @@ body{font-family:'Switzer',sans-serif;background:var(--cream);color:var(--dark);
 .btn-ghost{display:inline-block;background:transparent;color:rgba(254,252,249,.6);border:1px solid rgba(254,252,249,.2);padding:16px 44px;font-family:'Switzer',sans-serif;font-size:13px;letter-spacing:.06em;cursor:pointer;transition:all .22s ease;margin-top:14px;}
 .btn-ghost:hover{border-color:rgba(254,252,249,.45);color:var(--cream);}
 .w-byline{margin-top:52px;font-size:11px;color:rgba(254,252,249,.28);letter-spacing:.05em;}
+.w-byline a{color:rgba(254,252,249,.5);text-decoration:none;border-bottom:1px solid rgba(254,252,249,.18);transition:all .2s ease;}
+.w-byline a:hover{color:var(--teal);border-bottom-color:var(--teal);}
 
 /* ─── SECTION NAV ─── */
 .section-nav{background:var(--dark);padding:0 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.06);}
@@ -182,6 +185,18 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
 .out-eye{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;}
 .out-title{font-family:'DM Serif Display',serif;font-size:clamp(32px,5vw,54px);font-weight:300;margin-bottom:10px;}
 .out-name{font-family:'DM Serif Display',serif;font-size:20px;color:rgba(254,252,249,.5);font-style:italic;}
+
+/* top download bar (visible from all results tabs) */
+.top-dl-bar{background:var(--warm);border-bottom:1px solid var(--border);padding:24px 40px;text-align:center;}
+.top-dl-inner{max-width:820px;margin:0 auto;}
+.top-dl-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin-bottom:14px;font-weight:500;}
+.top-dl-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.top-dl-btns .btn-dl,.top-dl-btns .btn-dl-out{padding:12px 22px;font-size:11px;}
+
+/* results page footer */
+.results-footer{background:var(--dark);color:rgba(254,252,249,.4);text-align:center;padding:28px 40px;font-size:11px;letter-spacing:.05em;}
+.results-footer a{color:rgba(254,252,249,.65);text-decoration:none;border-bottom:1px solid rgba(254,252,249,.18);transition:all .2s ease;}
+.results-footer a:hover{color:var(--teal);border-bottom-color:var(--teal);}
 
 /* tab nav */
 .tab-nav{background:var(--white);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;padding:0 40px;position:sticky;top:0;z-index:50;}
@@ -312,18 +327,19 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
 
     <p class="w-desc">
       Most people train AI to sound like them.<br>
-      This trains AI to <strong>think, feel and create</strong> like you.<br><br>
-      In 30 minutes, you'll have a complete Brand Voice Guide in every file format every major AI platform needs — plus step-by-step instructions on exactly where to put each file to make your AI work the way you do.
+      This trains AI to <strong>think, feel and create</strong> like you.
     </p>
+
+    <div class="w-promise">Your Brand Voice Guide, built with</div>
 
     <div class="w-triangle">
       <div class="tri-item">
-        <div class="tri-icon">🧠</div>
+        <div class="tri-icon">✦</div>
         <div class="tri-lbl">Cognition</div>
       </div>
       <div class="tri-arrow">→</div>
       <div class="tri-item">
-        <div class="tri-icon">🫀</div>
+        <div class="tri-icon">✦</div>
         <div class="tri-lbl">Emotion</div>
       </div>
       <div class="tri-arrow">→</div>
@@ -333,19 +349,18 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       </div>
       <div class="tri-arrow">→</div>
       <div class="tri-item">
-        <div class="tri-icon">◈</div>
+        <div class="tri-icon">✦</div>
         <div class="tri-lbl">Visual</div>
       </div>
     </div>
 
     <div class="w-stats">
-      <div><div class="stat-num">4</div><div class="stat-lbl">Identity Layers</div></div>
       <div><div class="stat-num" style="font-style:italic;">30</div><div class="stat-lbl">Minutes</div></div>
       <div><div class="stat-num">5</div><div class="stat-lbl">AI-Ready Assets</div></div>
     </div>
 
     <button class="btn-main" onclick="startJourney()">Begin Your Blueprint</button>
-    <p class="w-byline">Dr. Johnna Consulting, LLC &nbsp;·&nbsp; doctorjohnna.com</p>
+    <p class="w-byline">Dr. Johnna Consulting, LLC &nbsp;·&nbsp; <a href="https://doctorjohnna.com" target="_blank" rel="noopener">doctorjohnna.com</a></p>
   </div>
 </div>
 
@@ -360,7 +375,7 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <div class="nav-step" id="nav-feel"><span class="step-check">2</span> How You Feel</div>
       <div class="nav-step" id="nav-speak"><span class="step-check">3</span> How You Communicate</div>
       <div class="nav-step" id="nav-look"><span class="step-check">4</span> How You Look</div>
-      <div class="nav-step" id="nav-out"><span class="step-check">5</span> Your Blueprint</div>
+      <div class="nav-step" id="nav-out"><span class="step-check">5</span> Your Brand Voice Guide</div>
     </div>
   </div>
 
@@ -437,7 +452,7 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <div class="nav-step active" id="nav-feel2"><span class="step-check">2</span> How You Feel</div>
       <div class="nav-step" id="nav-speak2"><span class="step-check">3</span> How You Communicate</div>
       <div class="nav-step" id="nav-look2"><span class="step-check">4</span> How You Look</div>
-      <div class="nav-step" id="nav-out2"><span class="step-check">5</span> Your Blueprint</div>
+      <div class="nav-step" id="nav-out2"><span class="step-check">5</span> Your Brand Voice Guide</div>
     </div>
   </div>
 
@@ -503,7 +518,7 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
     <div class="exp-block" style="border:1px solid var(--border);padding:24px 28px;background:var(--warm);">
       <div class="exp-label">Optional · But worth including if you have them</div>
       <div class="exp-question">Have you completed any personality or psychological assessments?</div>
-      <div class="exp-hint">Include the assessment name and your specific result for each one. The more precise you are, the more your Blueprint will reflect how you're actually wired — not a generic version of the type. For example: "MBTI: INFP. Enneagram: 4w5. Grit: high (top 10%). Human Design: Manifesting Generator. Attachment: secure. DISC: I/C. Strengths: Activator, Learner, Achiever." One line per assessment is enough. Leave blank if you don't have them.</div>
+      <div class="exp-hint">Include the assessment name and your specific result for each one. The more precise you are, the more your Blueprint will reflect how you're actually wired, not a generic version of the type. For example: "MBTI: INFP. Enneagram: 4w5. Grit: high (top 10%). Human Design: Manifesting Generator. Attachment: secure. DISC: I/C. Strengths: Activator, Learner, Achiever." One line per assessment is enough. Leave blank if you don't have them.</div>
       <textarea id="assessments" placeholder="e.g. MBTI: INFP · Enneagram: 4w5 · Grit: high · Human Design: Manifesting Generator · Attachment: secure · DISC: I/C · Strengths: Activator, Learner, Achiever" rows="4" style="min-height:90px;"></textarea>
     </div>
 
@@ -526,7 +541,7 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <div class="nav-step done"><span class="step-check">✓</span> How You Feel</div>
       <div class="nav-step active"><span class="step-check">3</span> How You Communicate</div>
       <div class="nav-step"><span class="step-check">4</span> How You Look</div>
-      <div class="nav-step"><span class="step-check">5</span> Your Blueprint</div>
+      <div class="nav-step"><span class="step-check">5</span> Your Brand Voice Guide</div>
     </div>
   </div>
 
@@ -587,8 +602,8 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
     <div class="exp-block" style="border:1px solid var(--border);padding:24px 28px;background:var(--warm);">
       <div class="exp-label">Optional · But this is where the magic happens</div>
       <div class="exp-question">Paste a real sample of your writing.</div>
-      <div class="exp-hint">Choose something you wrote without heavy editing — a paragraph from a blog post, a newsletter excerpt, an email, or a caption that felt natural. The ideal sample is at least 100 words. Two or three short pieces from different contexts (teaching, selling, connecting) is even better than one polished one. The Blueprint reads how you actually write, not what you say about how you write. Raw is fine.</div>
-      <textarea id="writingSample" placeholder="Paste 1-3 real writing samples here. Unpolished is fine — authentic writing reveals the most about your natural voice..." rows="6" style="min-height:130px;"></textarea>
+      <div class="exp-hint">Choose something you wrote without heavy editing. A paragraph from a blog post, a newsletter excerpt, an email, or a caption that felt natural. The ideal sample is at least 100 words. Two or three short pieces from different contexts (teaching, selling, connecting) is even better than one polished one. The Blueprint reads how you actually write, not what you say about how you write. Raw is fine.</div>
+      <textarea id="writingSample" placeholder="Paste 1-3 real writing samples here. Unpolished is fine. Authentic writing reveals the most about your natural voice..." rows="6" style="min-height:130px;"></textarea>
     </div>
 
     <!-- Business basics -->
@@ -628,7 +643,7 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <div class="nav-step done"><span class="step-check">✓</span> How You Feel</div>
       <div class="nav-step done"><span class="step-check">✓</span> How You Communicate</div>
       <div class="nav-step active"><span class="step-check">4</span> How You Look</div>
-      <div class="nav-step"><span class="step-check">5</span> Your Blueprint</div>
+      <div class="nav-step"><span class="step-check">5</span> Your Brand Voice Guide</div>
     </div>
   </div>
 
@@ -753,7 +768,7 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
         </div>
       </div>
       <div class="exp-block">        <div class="exp-hint">Optional but helpful. Knowing what you're not is often clearer than knowing what you are.</div>
-        <textarea id="wrongColors" placeholder="e.g. anything neon — it feels loud and performative, which is opposite to my energy..." rows="3" style="min-height:70px;"></textarea>
+        <textarea id="wrongColors" placeholder="e.g. anything neon. It feels loud and performative, which is opposite to my energy..." rows="3" style="min-height:70px;"></textarea>
       </div>
     </div>
 
@@ -772,7 +787,7 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
   <div class="gen-rings">
     <div class="ring"></div><div class="ring"></div><div class="ring"></div>
   </div>
-  <h2 class="gen-title">Building Your Brand Identity</h2>
+  <h2 class="gen-title">Building Your Brand Voice Guide</h2>
   <p class="gen-sub">Psychology-backed. Identity-first. Yours to keep.</p>
   <ul class="gen-steps">
     <li class="g-step" id="gs1"><span class="g-dot"></span>Mapping your cognitive patterns</li>
@@ -791,8 +806,22 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
 <div id="s-output" class="screen">
   <div class="out-header">
     <div class="out-eye">AI Identity Blueprint</div>
-    <h1 class="out-title">Your Brand Identity is Ready</h1>
+    <h1 class="out-title">Your Brand Voice Guide is Ready</h1>
     <p class="out-name" id="outName"></p>
+  </div>
+
+  <!-- TOP DOWNLOAD BAR (visible from all tabs) -->
+  <div class="top-dl-bar">
+    <div class="top-dl-inner">
+      <div class="top-dl-label">Download your Brand Voice Guide</div>
+      <div class="top-dl-btns">
+        <button class="btn-dl" onclick="downloadPDF()">↓ .pdf</button>
+        <button class="btn-dl-out" onclick="downloadAIContext()">↓ .txt</button>
+        <button class="btn-dl-out" onclick="downloadSkillFile()">↓ .skill</button>
+        <button class="btn-dl-out" onclick="downloadSkillMd()">↓ .md</button>
+        <button class="btn-dl-out" onclick="downloadAITrainingAssets()">↓ AI Training Assets</button>
+      </div>
+    </div>
   </div>
 
   <div class="tab-nav">
@@ -811,8 +840,8 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
 
     <!-- DOWNLOADS AT TOP -->
     <div style="max-width:680px;margin-bottom:48px;">
-      <h3 style="font-family:'DM Serif Display',serif;font-size:28px;font-weight:300;margin-bottom:10px;line-height:1.2;">Your Brand Voice Assets</h3>
-      <p style="font-size:14px;color:var(--gray);margin-bottom:24px;line-height:1.75;">Your Brand Voice ready for any AI platform. Each file built for a different job. Scroll down to learn exactly how to use them and where each file belongs.</p>
+      <h3 style="font-family:'DM Serif Display',serif;font-size:28px;font-weight:300;margin-bottom:10px;line-height:1.2;">Brand Voice Guide</h3>
+      <p style="font-size:14px;color:var(--gray);margin-bottom:24px;line-height:1.75;">Your Brand Voice Guide, ready for any AI platform. Each file built for a different job. Scroll down to learn exactly how to use them and where each file belongs.</p>
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
         <button class="btn-dl" onclick="downloadPDF()" style="padding:12px 20px;font-size:11px;">↓ Brand Voice Guide (.pdf)</button>
         <button class="btn-dl-out" onclick="downloadAIContext()" style="padding:12px 20px;font-size:11px;">↓ Brand Voice Guide (.txt)</button>
@@ -913,8 +942,8 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
         <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);">
           <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(254,252,249,.35);margin-bottom:14px;">Good to know</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-            <div style="font-size:12px;color:rgba(254,252,249,.65);line-height:1.7;"><strong style="color:var(--cream);display:block;margin-bottom:4px;">Claude Project vs. Claude Skill</strong>A Project is a focused workspace — Claude remembers your brand inside that Project. A Skill is global — Claude applies your brand voice in every conversation, everywhere.</div>
-            <div style="font-size:12px;color:rgba(254,252,249,.65);line-height:1.7;"><strong style="color:var(--cream);display:block;margin-bottom:4px;">ChatGPT Project vs. Custom GPT</strong>A Project keeps your files and conversations organized in one place. A Custom GPT is a fully configured AI assistant built on your brand — you can use it yourself or share it.</div>
+            <div style="font-size:12px;color:rgba(254,252,249,.65);line-height:1.7;"><strong style="color:var(--cream);display:block;margin-bottom:4px;">Claude Project vs. Claude Skill</strong>A Project is a focused workspace. Claude remembers your brand inside that Project. A Skill is global. Claude applies your brand voice in every conversation, everywhere.</div>
+            <div style="font-size:12px;color:rgba(254,252,249,.65);line-height:1.7;"><strong style="color:var(--cream);display:block;margin-bottom:4px;">ChatGPT Project vs. Custom GPT</strong>A Project keeps your files and conversations organized in one place. A Custom GPT is a fully configured AI assistant built on your brand. You can use it yourself or share it.</div>
           </div>
         </div>
       </div>
@@ -945,8 +974,8 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
 
   <!-- DOWNLOADS & UPSELL -->
   <div class="dl-zone">
-    <h2 class="dl-title">Your Brand Voice Assets</h2>
-    <p class="dl-sub">Your Brand Voice ready for any AI platform.</p>
+    <h2 class="dl-title">Brand Voice Guide</h2>
+    <p class="dl-sub">Your complete Brand Voice Guide, ready for any AI platform.</p>
     <div class="dl-btns">
       <button class="btn-dl" onclick="downloadPDF()">↓ Brand Voice Guide (.pdf)</button>
       <button class="btn-dl-out" onclick="downloadAIContext()">↓ Brand Voice Guide (.txt)</button>
@@ -961,6 +990,11 @@ input[type=color]::-webkit-color-swatch{border:1px solid var(--border);border-ra
       <p class="ups-txt">A community of high-achieving women doing the same inside-out work. Trainings, templates, live sessions, and AI tools built around the same psychology-first methodology that created your Blueprint.</p>
       <a href="https://brandstudio.drjohnna.co/" class="ups-link" target="_blank">Explore Brand Studio</a>
     </div>
+  </div>
+
+  <!-- RESULTS FOOTER -->
+  <div class="results-footer">
+    Dr. Johnna Consulting, LLC &nbsp;·&nbsp; <a href="https://doctorjohnna.com" target="_blank" rel="noopener">doctorjohnna.com</a>
   </div>
 </div>
 
@@ -1116,9 +1150,9 @@ PSYCHOLOGY FRAMEWORKS IN USE:
 
 WRITING STYLE: Warm, precise, psychologically grounded. No hype. No hustle language. No em dashes (use colons or periods instead). Natural contractions. Short punchy sentences mixed with longer ones.
 
-PERSONALITY ASSESSMENTS: If the user provided assessment results (Myers-Briggs, Enneagram, Grit Score, Attachment Style, Human Design, Strengths, DISC, or others), do two things: (1) weave these meaningfully into the cognitiveLayer, emotionalLayer, brandPersonality, and activationBlock — interpret what they reveal, do not simply list them; (2) populate the personalityProfile field with a synthesis summary and specific brand implications for each assessment provided. If no assessments were provided, set personalityProfile to null.
+PERSONALITY ASSESSMENTS: If the user provided assessment results (Myers-Briggs, Enneagram, Grit Score, Attachment Style, Human Design, Strengths, DISC, or others), do two things: (1) weave these meaningfully into the cognitiveLayer, emotionalLayer, brandPersonality, and activationBlock. Interpret what they reveal, do not simply list them. (2) populate the personalityProfile field with a synthesis summary and specific brand implications for each assessment provided. If no assessments were provided, set personalityProfile to null.
 
-WRITING SAMPLE: If the user provided a writing sample, do two things: (1) use your analysis to make the expressionLayer, signaturePhrases, and claudeSkillBlock genuinely reflect how they already write — not just what they said about it; (2) populate the voiceInAction field with observed patterns from the actual text, specific strengths to lean into, and tendencies to use with awareness. Be concrete — "opens with a grounding statement before moving to the point" is useful; "writes clearly" is not. If no writing sample was provided, set voiceInAction to null.
+WRITING SAMPLE: If the user provided a writing sample, do two things: (1) use your analysis to make the expressionLayer, signaturePhrases, and claudeSkillBlock genuinely reflect how they already write, not just what they said about it. (2) populate the voiceInAction field with observed patterns from the actual text, specific strengths to lean into, and tendencies to use with awareness. Be concrete: "opens with a grounding statement before moving to the point" is useful, "writes clearly" is not. If no writing sample was provided, set voiceInAction to null.
 
 CRITICAL TYPOGRAPHY RULE: If the user provided specific font names in their visual identity answers (Path A), you MUST use exactly those fonts in typography.heading and typography.body. Do not substitute or suggest alternatives. Only generate font suggestions if Path B was selected and no fonts were provided.
 
@@ -1160,7 +1194,7 @@ JSON STRUCTURE:
     "aboutMe": "80-100 words for ChatGPT 'What would you like ChatGPT to know about you?' field. First person. Cover: who they are, what they do, who they serve, their core philosophy, and 2-3 non-negotiable values.",
     "responseStyle": "80-100 words for ChatGPT 'How would you like ChatGPT to respond?' field. First person. Cover: tone, language to use, language to avoid, sentence rhythm, the feeling their content should produce."
   },
-  "claudeSkillBlock": "A comprehensive brand voice SKILL.md file. Use EXACTLY this structure:\n\n---\nname: [Name] Brand Voice\ndescription: Apply [Name]'s brand voice to all writing, content creation, and copy. Use this skill whenever writing ANY content for [Name] including social media posts, email sequences, sales pages, website copy, video scripts, podcast scripts, blog posts, captions, CTAs, course materials, or any other written output. Also trigger when asked to 'write in my voice,' 'write copy,' 'create content,' 'draft a post,' 'write an email,' or any request involving [Name]'s brand, audience, or business. When in doubt, use this skill. It is better to apply it unnecessarily than to miss it.\n---\n\n# [Name] Brand Voice & Identity\n\n## Who They Are\n[2-3 sentences. Their expertise, methodology, and the psychology-backed foundation of their work. Specific to this person.]\n\n## Core Philosophy\n[2-3 sentences capturing their worldview. Should feel like a conviction, not a tagline. Rooted in their actual answers.]\n\n## Who They Serve\n[2 sentences. Describe their audience by identity journey and emotional state. Never by job title or demographic.]\n\n## How They Think\n[2-3 sentences. Their diagnostic lens, contrarian beliefs, what they see that others miss. Pulled from their cognitive layer answers.]\n\n## How They Feel About Their Work\n[2 sentences. Emotional drivers, what alignment means to them, their non-negotiables. From their emotional layer answers.]\n\n## Communication Style\n- [Tone directive specific to this person]\n- [Sentence rhythm: short punchy mixed with longer]\n- [Contractions: always use natural contractions]\n- [Em dashes: never use em dashes]\n- [Any other specific voice rules from their answers]\n- [The emotional intention: reader should feel X]\n\n## Signature Phrases — Use These\n[10-12 bullet points of their actual signature language from their answers]\n\n## Never Use\n[7-9 bullet points. Specific refused words, phrases, tones. Include one-line reason for each based on their values.]\n\n## Transformation They Deliver\n[1-2 sentences. The specific before-and-after their clients experience. Human language, not outcome metrics.]\n\n## Visual World\n[1 sentence describing their aesthetic for image generation and design prompts.]\n\n[IF personalityProfile is not null, add this section:]\n## Personality Context\n[Include the personalityProfile summary here, followed by each implication as a bullet point in format: Assessment — insight.]\n\n[IF voiceInAction is not null, add this section:]\n## Voice Patterns\n[List each observed pattern as a bullet point under 'Patterns in their actual writing:'. Then list leanInto items under 'Amplify this:'. Then list watchFor items under 'Use with intention:'.]",
+  "claudeSkillBlock": "A comprehensive brand voice SKILL.md file. Use EXACTLY this structure:\n\n---\nname: [Name] Brand Voice\ndescription: Apply [Name]'s brand voice to all writing, content creation, and copy. Use this skill whenever writing ANY content for [Name] including social media posts, email sequences, sales pages, website copy, video scripts, podcast scripts, blog posts, captions, CTAs, course materials, or any other written output. Also trigger when asked to 'write in my voice,' 'write copy,' 'create content,' 'draft a post,' 'write an email,' or any request involving [Name]'s brand, audience, or business. When in doubt, use this skill. It is better to apply it unnecessarily than to miss it.\n---\n\n# [Name] Brand Voice & Identity\n\n## Who They Are\n[2-3 sentences. Their expertise, methodology, and the psychology-backed foundation of their work. Specific to this person.]\n\n## Core Philosophy\n[2-3 sentences capturing their worldview. Should feel like a conviction, not a tagline. Rooted in their actual answers.]\n\n## Who They Serve\n[2 sentences. Describe their audience by identity journey and emotional state. Never by job title or demographic.]\n\n## How They Think\n[2-3 sentences. Their diagnostic lens, contrarian beliefs, what they see that others miss. Pulled from their cognitive layer answers.]\n\n## How They Feel About Their Work\n[2 sentences. Emotional drivers, what alignment means to them, their non-negotiables. From their emotional layer answers.]\n\n## Communication Style\n- [Tone directive specific to this person]\n- [Sentence rhythm: short punchy mixed with longer]\n- [Contractions: always use natural contractions]\n- [Em dashes: never use em dashes]\n- [Any other specific voice rules from their answers]\n- [The emotional intention: reader should feel X]\n\n## Signature Phrases (Use These)\n[10-12 bullet points of their actual signature language from their answers]\n\n## Never Use\n[7-9 bullet points. Specific refused words, phrases, tones. Include one-line reason for each based on their values.]\n\n## Transformation They Deliver\n[1-2 sentences. The specific before-and-after their clients experience. Human language, not outcome metrics.]\n\n## Visual World\n[1 sentence describing their aesthetic for image generation and design prompts.]\n\n[IF personalityProfile is not null, add this section:]\n## Personality Context\n[Include the personalityProfile summary here, followed by each implication as a bullet point in format: Assessment: insight.]\n\n[IF voiceInAction is not null, add this section:]\n## Voice Patterns\n[List each observed pattern as a bullet point under 'Patterns in their actual writing:'. Then list leanInto items under 'Amplify this:'. Then list watchFor items under 'Use with intention:'.]",
   "personalityProfile": null,
   "voiceInAction": null,
   "brandVoiceOneLiner": "One sentence. The most distilled version of their brand voice. Should feel like something they could tattoo on the wall above their desk."
@@ -1168,17 +1202,17 @@ JSON STRUCTURE:
 
 WHEN personalityProfile is NOT null, use this structure:
 "personalityProfile": {
-  "summary": "2-3 sentences synthesizing what the combined assessment results reveal about how this person is wired. Interpret the pattern — do not list. Connect the dots between types to reveal a coherent picture of how they think, work, and relate.",
+  "summary": "2-3 sentences synthesizing what the combined assessment results reveal about how this person is wired. Interpret the pattern, do not list. Connect the dots between types to reveal a coherent picture of how they think, work, and relate.",
   "implications": [
-    {"label": "Assessment name and result (e.g. MBTI: INFP)", "insight": "What this specific result means for their brand voice, communication style, positioning, or how they show up — one clear, actionable sentence."}
+    {"label": "Assessment name and result (e.g. MBTI: INFP)", "insight": "What this specific result means for their brand voice, communication style, positioning, or how they show up. One clear, actionable sentence."}
   ]
 }
 
 WHEN voiceInAction is NOT null, use this structure:
 "voiceInAction": {
   "patterns": ["A specific pattern observed in their actual writing. Concrete, not vague. e.g. 'Opens paragraphs with a grounding truth before building to the point'", "Pattern 2", "Pattern 3"],
-  "leanInto": ["A quality or habit in their writing that should be amplified, not smoothed over. e.g. 'The rhythm of short declarative sentences followed by a longer explanatory one — it creates momentum and authority'"],
-  "watchFor": ["A tendency worth being intentional about — framed as craft awareness, not criticism. e.g. 'Qualifiers like 'just' or 'a little' soften the authority their ideas already carry'"]
+  "leanInto": ["A quality or habit in their writing that should be amplified, not smoothed over. e.g. 'The rhythm of short declarative sentences followed by a longer explanatory one. It creates momentum and authority'"],
+  "watchFor": ["A tendency worth being intentional about, framed as craft awareness not criticism. e.g. 'Qualifiers like 'just' or 'a little' soften the authority their ideas already carry'"]
 }`;
 }
 
@@ -1204,9 +1238,9 @@ Who they serve: ${a.q5}
 What their best work feels like: ${a.q6}
 
 === LAYER 2: HOW THEY FEEL ===
-Value 1: ${a.val1name} — ${a.val1mean}
-Value 2: ${a.val2name} — ${a.val2mean}
-Value 3: ${a.val3name||'not specified'} — ${a.val3mean||''}
+Value 1 (${a.val1name}): ${a.val1mean}
+Value 2 (${a.val2name}): ${a.val2mean}
+Value 3 (${a.val3name||'not specified'}): ${a.val3mean||''}
 First 30 seconds brand feeling: ${a.q7}
 In alignment: ${a.q8a}
 Out of alignment: ${a.q8b}
@@ -1247,7 +1281,7 @@ function fallback(){
       {name:"Connection",meaning:"The relationship with clients is not transactional. It is built on real understanding and mutual respect."}
     ],
     brandPositioning:`In ${industry}, ${name} brings a combination of deep expertise and genuine human understanding that sets their work apart. Clients don't just get a service. They get a partner who actually understands what they're trying to build and why it matters.`,
-    uniqueSellingProposition:`${name} combines real expertise with a genuine investment in each client's success — making ${biz} the kind of work people remember and return to.`,
+    uniqueSellingProposition:`${name} combines real expertise with a genuine investment in each client's success. ${biz} is the kind of work people remember and return to.`,
     targetAudience:`The people ${name} serves are ready to move. They know what they want but may not yet have the support, clarity, or tools to get there efficiently. They value quality over speed, relationship over transaction, and results that actually hold up over time.`,
     cognitiveLayer:`${name} approaches their work with a diagnostic mindset. Before offering solutions, they listen for the real question underneath the presented one. This pattern of thinking, developed through experience in ${industry}, means clients consistently feel understood before they feel helped.`,
     emotionalLayer:`${name} is motivated by the moment when something clicks for a client. Not the transaction, but the shift. The work feels meaningful when it creates genuine progress for real people. That emotional investment is not a liability. It's what makes the work credible.`,
@@ -1260,7 +1294,7 @@ function fallback(){
       {pillar:"Relationship",description:"A long-term investment in each client's success, not just the immediate engagement."}
     ],
     signaturePhrases:["Let's get clear on what actually matters here","Here's what I'm seeing","The real question is","That's worth slowing down for","Here's how I'd approach this","Let me show you what's possible"],
-    languageToAvoid:["Vague promises — undermines the credibility the brand is built on","Jargon without explanation — creates distance instead of trust","Urgency tactics — clients don't need pressure, they need clarity","Overclaiming — real expertise doesn't need to be overstated","Buzzwords that everyone uses — they make every brand sound the same"],
+    languageToAvoid:["Vague promises (undermines the credibility the brand is built on)","Jargon without explanation (creates distance instead of trust)","Urgency tactics (clients don't need pressure, they need clarity)","Overclaiming (real expertise doesn't need to be overstated)","Buzzwords that everyone uses (they make every brand sound the same)"],
     visualIdentity:{
       direction:`${name}'s visual world should feel considered and clear. A palette that communicates trust and competence without feeling cold. Typography that is readable and professional. The overall impression: this is someone who takes their work seriously and respects the people they serve.`,
       palette:[
@@ -1278,7 +1312,7 @@ function fallback(){
       aboutMe:`I'm ${name}, working in ${industry}. I bring deep expertise and a genuine investment in the success of the people I work with. I value clarity, honesty, and results that actually hold up. My clients are intelligent and discerning. They want substance, not performance.`,
       responseStyle:`Write clearly and directly. Warm but not casual. Confident but not arrogant. No hype, no urgency tactics, no empty inspiration. Lead with what is true and useful. Respect the intelligence of the reader. Keep sentences focused. Mix shorter punchy lines with longer ones when needed for nuance.`
     },
-    claudeSkillBlock:`---\nname: ${name} Brand Voice\ndescription: Apply ${name}'s brand voice to all writing and content. Use this skill whenever writing ANY content for ${name} including posts, emails, copy, scripts, or course materials. Trigger when asked to write in their voice, create content, or draft anything for their brand or audience.\n---\n\n# ${name} Brand Voice\n\n## Who They Are\n${name} is an expert in ${industry} whose work is defined by genuine knowledge, clear communication, and a real investment in client outcomes.\n\n## Core Philosophy\nSubstance over performance. Every piece of content should leave the audience more informed, more capable, or more certain. Nothing is published just to appear active.\n\n## Who They Serve\nIntelligent, discerning people who want real expertise and honest guidance. They are not looking to be inspired. They are looking to move forward.\n\n## How They Think\nDiagnostic before prescriptive. ${name} listens for the real question underneath the presented one. Solutions follow understanding, not the other way around.\n\n## How They Feel About Their Work\nThe work matters because it affects real people. That's not a tagline. It shapes every decision about quality, communication, and client relationships.\n\n## Communication Style\n- Direct and warm. Never cold, never performative.\n- Confident without arrogance. Specific without jargon.\n- Short punchy sentences mixed with longer ones when nuance is needed.\n- Natural contractions (you're, I've, don't, that's).\n- No hype, no urgency tactics, no empty inspiration.\n- Leave the reader better off than before they read it.\n\n## Signature Phrases — Use These\n- Here's what I'm seeing\n- Let's get clear on what actually matters\n- The real question is\n- That's worth slowing down for\n- Here's how I'd approach this\n\n## Never Use\n- Vague promises or overclaiming\n- Urgency tactics or false scarcity\n- Buzzwords and jargon without explanation\n- Performative excitement\n- Generic phrases that sound like everyone else\n\n## Transformation They Deliver\nClients move from uncertain or stuck to clear and capable. Not through inspiration but through genuine expertise applied to their actual situation.\n\n## Visual World\nConsidered and professional. Clean backgrounds, readable typography, a palette that communicates trust without coldness.`,
+    claudeSkillBlock:`---\nname: ${name} Brand Voice\ndescription: Apply ${name}'s brand voice to all writing and content. Use this skill whenever writing ANY content for ${name} including posts, emails, copy, scripts, or course materials. Trigger when asked to write in their voice, create content, or draft anything for their brand or audience.\n---\n\n# ${name} Brand Voice\n\n## Who They Are\n${name} is an expert in ${industry} whose work is defined by genuine knowledge, clear communication, and a real investment in client outcomes.\n\n## Core Philosophy\nSubstance over performance. Every piece of content should leave the audience more informed, more capable, or more certain. Nothing is published just to appear active.\n\n## Who They Serve\nIntelligent, discerning people who want real expertise and honest guidance. They are not looking to be inspired. They are looking to move forward.\n\n## How They Think\nDiagnostic before prescriptive. ${name} listens for the real question underneath the presented one. Solutions follow understanding, not the other way around.\n\n## How They Feel About Their Work\nThe work matters because it affects real people. That's not a tagline. It shapes every decision about quality, communication, and client relationships.\n\n## Communication Style\n- Direct and warm. Never cold, never performative.\n- Confident without arrogance. Specific without jargon.\n- Short punchy sentences mixed with longer ones when nuance is needed.\n- Natural contractions (you're, I've, don't, that's).\n- No hype, no urgency tactics, no empty inspiration.\n- Leave the reader better off than before they read it.\n\n## Signature Phrases (Use These)\n- Here's what I'm seeing\n- Let's get clear on what actually matters\n- The real question is\n- That's worth slowing down for\n- Here's how I'd approach this\n\n## Never Use\n- Vague promises or overclaiming\n- Urgency tactics or false scarcity\n- Buzzwords and jargon without explanation\n- Performative excitement\n- Generic phrases that sound like everyone else\n\n## Transformation They Deliver\nClients move from uncertain or stuck to clear and capable. Not through inspiration but through genuine expertise applied to their actual situation.\n\n## Visual World\nConsidered and professional. Clean backgrounds, readable typography, a palette that communicates trust without coldness.`,
     personalityProfile:null,
     voiceInAction:null,
     brandVoiceOneLiner:`${name} brings real expertise and genuine care to every client in ${industry}.`
@@ -1291,7 +1325,7 @@ function renderAll(bp){
   if(state.isFallback){
     const notice=document.createElement('div');
     notice.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:#B43C3C;color:#fff;text-align:center;padding:14px 20px;font-family:\'Switzer\',sans-serif;font-size:13px;letter-spacing:.02em;';
-    notice.innerHTML='We had trouble connecting to generate your personalized Blueprint. This is a sample — <strong>please refresh and try again</strong> for your real results.';
+    notice.innerHTML='We had trouble connecting to generate your personalized Blueprint. This is a sample. <strong>Please refresh and try again</strong> for your real results.';
     document.body.prepend(notice);
   }
   const name=state.answers.userName||'Your';
@@ -1365,7 +1399,7 @@ function renderAIAssets(bp){
   const name=state.answers.userName||'You';
 
   const skillTool={
-      icon:'🧠',
+      icon:'✦',
       color:'#4DB8B8',
       name:'Claude Skills File',
       desc:'Install your brand voice as a permanent Claude Skill',
@@ -1376,7 +1410,7 @@ function renderAIAssets(bp){
   const tools=[
     skillTool,
     {
-      icon:'🤖',
+      icon:'✦',
       color:'#7C3AED',
       name:'Claude Projects',
       desc:'Load your identity into any Claude Project',
@@ -1385,7 +1419,7 @@ function renderAIAssets(bp){
       code:bp.claudeProjectInstructions||''
     },
     {
-      icon:'💬',
+      icon:'✦',
       color:'#10A37F',
       name:'ChatGPT Custom Instructions',
       desc:'Train ChatGPT with your identity',
@@ -1557,7 +1591,7 @@ function downloadAITrainingAssets(){
   const sep='='.repeat(60);
   const aboutMe=bp.chatGPTCustomInstructions?.aboutMe||'';
   const responseStyle=bp.chatGPTCustomInstructions?.responseStyle||'';
-  const c=`AI IDENTITY BLUEPRINT — AI TRAINING ASSETS
+  const c=`AI IDENTITY BLUEPRINT · AI TRAINING ASSETS
 Dr. Johnna Consulting, LLC · doctorjohnna.com
 Generated for: ${name}
 
@@ -1571,14 +1605,14 @@ ${sep}
 ${bp.activationBlock||''}
 
 ${sep}
-CLAUDE PROJECTS — CUSTOM INSTRUCTIONS
+CLAUDE PROJECTS · CUSTOM INSTRUCTIONS
 Paste into: Claude.ai > Projects > Project Instructions
 ${sep}
 
 ${bp.claudeProjectInstructions||''}
 
 ${sep}
-CHATGPT — CUSTOM INSTRUCTIONS (two fields)
+CHATGPT · CUSTOM INSTRUCTIONS (two fields)
 ${sep}
 
 ABOUT ME (paste in field 1):
